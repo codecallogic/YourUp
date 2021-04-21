@@ -122,11 +122,39 @@ body {
   .home-wave {
     bottom: 0;
     position: relative;
-    height: 25rem;
+    height: 20rem;
     width: 100vw; }
     .home-wave-container {
       position: absolute;
       bottom: 0; }
+
+#firebaseui_container {
+  grid-column: 1/-1;
+  background-color: transparent;
+  justify-self: center;
+  border: none;
+  outline: none;
+  margin: 3rem 0 1rem 0;
+  transition: all 0.5s; }
+
+.firebaseui-list-item button {
+  transition: all 1s; }
+
+.firebaseui-list-item button:hover {
+  box-shadow: 0rem 0.5rem 2rem 0.2rem rgba(134, 136, 144, 0.5);
+  -webkit-transform: scale(1.2);
+  /* Safari & Chrome */
+  -moz-transform: scale(1.2);
+  /* Firefox */
+  -ms-transform: scale(1.2);
+  /* Internet Explorer */
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+  cursor: pointer; }
+
+.test {
+  color: white;
+  font-size: 5rem; }
 
 .waveWrapper {
   overflow: hidden;

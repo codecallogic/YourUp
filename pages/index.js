@@ -1,5 +1,42 @@
+import {useEffect, useState} from 'react'
+import firebase from 'firebase'
+import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+
+if (!firebase.apps.length) {
+  firebase.initializeApp({
+    apiKey: 'AIzaSyD3kgibfD8dkQnX-m5ic3VDThbIYh6tIrY',
+    authDomain: 'yourup-6f5b6.firebaseapp.com'
+  })
+}else {
+  firebase.app(); // if already initialized, use that one
+}
 
 const Home = ({}) => {
+
+  const [user, setUser] = useState(false)
+
+  const uiConfig = {
+    signInFlow: 'popup',
+    signInOptions: [
+      firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+      firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+      signInSuccess: () => false
+    }
+  }
+
+  const signOut = () => {
+    firebase.auth().signOut()
+    setUser(false)
+    location.reload()
+  }
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged( user => {
+      setUser(!!user)
+    })
+  }, [])
   
   return (
     <div className="home-container">
@@ -9,15 +46,14 @@ const Home = ({}) => {
         </svg>
         <h1>YourUp</h1>
         <h6>You need a premium account to gain access</h6>
-        <button className="home-login-google">
-          <img src="/media/google-signin.png" alt="Google Signin"/>
-        </button>
-        <button className="home-login-facebook">
-          <svg>
-            <use xlinkHref="/sprite.svg#icon-facebook2"></use>
-          </svg>
-          <span>Sign in with Facebook</span>
-        </button>
+        {user ? 
+        <button onClick={signOut} className="home-login-google">Sign Out</button>
+        : null}
+        <StyledFirebaseAuth 
+          uiConfig={uiConfig}
+          firebaseAuth={firebase.auth()}
+        />
+        <span>{user ? <span>{firebase.auth().currentUser.displayName}</span>: null}</span>
       </div>
       <div className="home-wave-container">
         <div className="home-wave">
