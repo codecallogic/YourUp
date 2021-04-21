@@ -16,7 +16,7 @@ const Home = ({}) => {
 
   const router = useRouter()
 
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState(null)
 
   const uiConfig = {
     signInFlow: 'popup',
@@ -25,20 +25,14 @@ const Home = ({}) => {
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
     ],
     callbacks: {
-      signInSuccess: () => false
+      signInSuccessWithAuthResult: () => false
     }
-  }
-
-  const signOut = () => {
-    firebase.auth().signOut()
-    setUser(false)
-    location.reload()
   }
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged( user => {
-      setUser(!!user)
-      router.push('/mixer')
+      setUser(user)
+      user ? router.push('/mixer') : null
     })
   }, [])
   

@@ -2,7 +2,7 @@
   grid-column: 1/-1;
   background-color: $color-scheme-1;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: 1fr;
   height: min-content;
   position: relative;
   color: white;
