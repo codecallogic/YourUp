@@ -1,0 +1,49 @@
+// Colors
+$color-scheme-5: #868890;
+$color-scheme-4: #34a0ff;
+$color-scheme-3: #f0483d;
+$color-scheme-2: #3ad24d;
+$color-scheme-1: #101013;
+
+//Shades
+$color-shade-gray: rgb(161, 161, 161);
+$color-shade-light-gray: #e5e5e5;
+$color-shade-dark-gray: #4b4f4d;
+$color-shade-scheme-1: rgba(60, 145, 230, 0.3);
+
+// CONTRAST
+$dark-contrast: white;
+
+// BRANDs
+$color-facebook: #3351a3;
+
+// Breakpoints
+$extra-large: 1200px;
+$large: 992px;
+$medium: 768px;
+$small: 600px;
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  scroll-behavior: smooth;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+body {
+  font-family: freight-neo-pro, sans-serif;
+  font-style: normal;
+  line-height: 1.6;
+}

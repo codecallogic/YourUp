@@ -1,0 +1,206 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  scroll-behavior: smooth; }
+
+html,
+body {
+  overflow-x: hidden; }
+
+body {
+  font-family: freight-neo-pro, sans-serif;
+  font-style: normal;
+  line-height: 1.6; }
+
+.home {
+  grid-column: 1/-1;
+  background-color: #101013;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: min-content;
+  position: relative; }
+  .home-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background-color: #101013;
+    height: 100vh;
+    position: relative; }
+  .home-icon {
+    grid-column: 1/-1;
+    justify-self: center;
+    fill: #3ad24d;
+    width: 10rem;
+    margin: 2rem 0 0 0; }
+  .home h1 {
+    grid-column: 1/-1;
+    color: white;
+    justify-self: center;
+    font-size: 4.2rem;
+    font-weight: 900;
+    margin: 1rem 0;
+    padding: 0;
+    transform: rotateZ(-5deg);
+    position: relative; }
+    .home h1::before {
+      content: 'YourUp';
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: #3ad24d;
+      overflow: hidden;
+      animation: flash 2s ease-in infinite forwards;
+      transition: all 0.5s; }
+    .home h1:hover::before {
+      cursor: pointer; }
+  .home h6 {
+    grid-column: 1/-1;
+    color: white;
+    justify-self: center;
+    font-size: 1.4rem;
+    font-weight: 400;
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+    background-color: #4b4f4d; }
+  .home-login-google {
+    grid-column: 1/-1;
+    background-color: transparent;
+    justify-self: center;
+    border: none;
+    outline: none;
+    margin: 3rem 0 1rem 0;
+    transition: all 0.5s; }
+    .home-login-google img {
+      width: 20rem;
+      background-color: transparent;
+      border: none;
+      outline: none; }
+    .home-login-google:hover {
+      box-shadow: 0rem 0.5rem 2rem 0.2rem rgba(134, 136, 144, 0.5);
+      transform: scale(1.2);
+      cursor: pointer; }
+  .home-login-facebook {
+    grid-column: 1/-1;
+    display: flex;
+    align-items: center;
+    justify-self: center;
+    margin: 1rem 0;
+    background-color: #3351a3;
+    width: 20rem;
+    height: auto;
+    padding: 0.8rem 1rem;
+    border-radius: 0.3rem;
+    outline: none;
+    border: none;
+    transition: all 0.5s; }
+    .home-login-facebook svg {
+      width: 3rem;
+      height: 3rem;
+      fill: white; }
+    .home-login-facebook span {
+      width: 100%;
+      color: white;
+      justify-self: center;
+      font-size: auto; }
+    .home-login-facebook:hover {
+      box-shadow: 0rem 0.5rem 2rem 0.2rem rgba(134, 136, 144, 0.5);
+      -webkit-transform: scale(1.2);
+      /* Safari & Chrome */
+      -moz-transform: scale(1.2);
+      /* Firefox */
+      -ms-transform: scale(1.2);
+      /* Internet Explorer */
+      -o-transform: scale(1.2);
+      transform: scale(1.2);
+      cursor: pointer; }
+  .home-wave {
+    bottom: 0;
+    position: relative;
+    height: 25rem;
+    width: 100vw; }
+    .home-wave-container {
+      position: absolute;
+      bottom: 0; }
+
+.waveWrapper {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto; }
+
+.waveWrapperInner {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  bottom: -1px;
+  background-image: linear-gradient(to top, transparent 10%, #3ad24d 10%, #101013 80%); }
+
+.bgTop {
+  z-index: 15;
+  opacity: 0.5; }
+
+.bgMiddle {
+  z-index: 10;
+  opacity: 0.75; }
+
+.bgBottom {
+  z-index: 5; }
+
+.wave {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-repeat: repeat no-repeat;
+  background-position: 0 bottom;
+  transform-origin: center bottom; }
+
+.waveTop {
+  background-size: 50% 100px; }
+
+.waveAnimation .waveTop {
+  animation: move-wave 3s;
+  -webkit-animation: move-wave 3s;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s; }
+
+.waveMiddle {
+  background-size: 50% 120px; }
+
+.waveAnimation .waveMiddle {
+  animation: move_wave 10s linear infinite; }
+
+.waveBottom {
+  background-size: 50% 100px; }
+
+.waveAnimation .waveBottom {
+  animation: move_wave 15s linear infinite; }
+
+.waveAnimation {
+  background-color: #101013; }
+
+@keyframes flash {
+  0% {
+    width: 0%; }
+  50% {
+    width: 100%; }
+  100% {
+    width: 500%; } }
+
+@keyframes move_wave {
+  0% {
+    transform: translateX(0) translateZ(0) scaleY(1); }
+  50% {
+    transform: translateX(-25%) translateZ(0) scaleY(0.55); }
+  100% {
+    transform: translateX(-50%) translateZ(0) scaleY(1); } }

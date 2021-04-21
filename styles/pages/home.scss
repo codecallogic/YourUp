@@ -1,0 +1,206 @@
+.home {
+  grid-column: 1/-1;
+  background-color: $color-scheme-1;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: min-content;
+  position: relative;
+
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background-color: $color-scheme-1;
+    height: 100vh;
+    position: relative;
+  }
+
+  &-icon {
+    grid-column: 1/-1;
+    justify-self: center;
+    fill: $color-scheme-2;
+    width: 10rem;
+    margin: 2rem 0 0 0;
+  }
+
+  h1 {
+    grid-column: 1/-1;
+    color: white;
+    justify-self: center;
+    font-size: 4.2rem;
+    font-weight: 900;
+    margin: 1rem 0;
+    padding: 0;
+    transform: rotateZ(-5deg);
+    position: relative;
+
+    &::before {
+      content: 'YourUp';
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: $color-scheme-2;
+      overflow: hidden;
+      animation: flash 2s ease-in infinite forwards;
+      transition: all 0.5s;
+    }
+
+    &:hover::before {
+      cursor: pointer;
+    }
+  }
+
+  h6 {
+    grid-column: 1/-1;
+    color: white;
+    justify-self: center;
+    font-size: 1.4rem;
+    font-weight: 400;
+    padding: 1rem 2rem;
+    margin: 1rem 0;
+    background-color: $color-shade-dark-gray;
+  }
+
+  &-login {
+    &-google {
+      grid-column: 1/-1;
+      background-color: transparent;
+      justify-self: center;
+      border: none;
+      outline: none;
+      margin: 3rem 0 1rem 0;
+      transition: all 0.5s;
+
+      img {
+        width: 20rem;
+        background-color: transparent;
+        border: none;
+        outline: none;
+      }
+
+      &:hover {
+        box-shadow: 0rem 0.5rem 2rem 0.2rem rgba($color-scheme-5, 0.5);
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+    }
+
+    &-facebook {
+      grid-column: 1/-1;
+      display: flex;
+      align-items: center;
+      justify-self: center;
+      margin: 1rem 0;
+      background-color: $color-facebook;
+      width: 20rem;
+      height: auto;
+      padding: 0.8rem 1rem;
+      border-radius: 0.3rem;
+      outline: none;
+      border: none;
+      transition: all 0.5s;
+
+      svg {
+        width: 3rem;
+        height: 3rem;
+        fill: white;
+      }
+
+      span {
+        width: 100%;
+        color: white;
+        justify-self: center;
+        font-size: auto;
+      }
+
+      &:hover {
+        box-shadow: 0rem 0.5rem 2rem 0.2rem rgba($color-scheme-5, 0.5);
+        -webkit-transform: scale(1.2); /* Safari & Chrome */
+        -moz-transform: scale(1.2); /* Firefox */
+        -ms-transform: scale(1.2); /* Internet Explorer */
+        -o-transform: scale(1.2);
+        transform: scale(1.2);
+        cursor: pointer;
+      }
+    }
+  }
+
+  &-wave {
+    bottom: 0;
+    position: relative;
+    height: 25rem;
+    width: 100vw;
+
+    &-container {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+}
+
+.waveWrapper {
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  margin: auto;
+}
+.waveWrapperInner {
+  position: absolute;
+  width: 100%;
+  overflow: hidden;
+  height: 100%;
+  bottom: -1px;
+  background-image: linear-gradient(
+    to top,
+    transparent 10%,
+    $color-scheme-2 10%,
+    $color-scheme-1 80%
+  );
+}
+.bgTop {
+  z-index: 15;
+  opacity: 0.5;
+}
+.bgMiddle {
+  z-index: 10;
+  opacity: 0.75;
+}
+.bgBottom {
+  z-index: 5;
+}
+.wave {
+  position: absolute;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background-repeat: repeat no-repeat;
+  background-position: 0 bottom;
+  transform-origin: center bottom;
+}
+.waveTop {
+  background-size: 50% 100px;
+}
+.waveAnimation .waveTop {
+  animation: move-wave 3s;
+  -webkit-animation: move-wave 3s;
+  -webkit-animation-delay: 1s;
+  animation-delay: 1s;
+}
+.waveMiddle {
+  background-size: 50% 120px;
+}
+.waveAnimation .waveMiddle {
+  animation: move_wave 10s linear infinite;
+}
+.waveBottom {
+  background-size: 50% 100px;
+}
+.waveAnimation .waveBottom {
+  animation: move_wave 15s linear infinite;
+}
+
+.waveAnimation {
+  background-color: $color-scheme-1;
+}
