@@ -124,9 +124,22 @@ body {
     position: relative;
     height: 20rem;
     width: 100vw; }
+    @media only screen and (max-width: 320px) {
+      .home-wave {
+        height: 10rem !important; } }
+    @media only screen and (max-width: 600px) {
+      .home-wave {
+        height: 20rem; } }
     .home-wave-container {
       position: absolute;
       bottom: 0; }
+      @media only screen and (min-width: 500px) {
+        .home-wave-container {
+          position: relative; } }
+      @media only screen and (min-width: 768px) {
+        .home-wave-container {
+          position: fixed;
+          bottom: 0; } }
 
 #firebaseui_container {
   grid-column: 1/-1;
@@ -134,7 +147,7 @@ body {
   justify-self: center;
   border: none;
   outline: none;
-  margin: 3rem 0 1rem 0;
+  margin: 2rem 0 1rem 0;
   transition: all 0.5s; }
 
 .firebaseui-list-item button {
@@ -216,6 +229,21 @@ body {
 
 .waveAnimation {
   background-color: #101013; }
+
+.mixer {
+  grid-column: 1/-1;
+  background-color: #101013;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: min-content;
+  position: relative;
+  color: white; }
+  .mixer-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background-color: #101013;
+    height: 100vh;
+    position: relative; }
 
 @keyframes flash {
   0% {

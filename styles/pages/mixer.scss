@@ -1,0 +1,17 @@
+.mixer {
+  grid-column: 1/-1;
+  background-color: $color-scheme-1;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  height: min-content;
+  position: relative;
+  color: white;
+
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    background-color: $color-scheme-1;
+    height: 100vh;
+    position: relative;
+  }
+}

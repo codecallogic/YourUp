@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react'
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+import { useRouter } from 'next/router'
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -12,6 +13,8 @@ if (!firebase.apps.length) {
 }
 
 const Home = ({}) => {
+
+  const router = useRouter()
 
   const [user, setUser] = useState(false)
 
@@ -35,6 +38,7 @@ const Home = ({}) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged( user => {
       setUser(!!user)
+      router.push('/mixer')
     })
   }, [])
   
@@ -46,14 +50,10 @@ const Home = ({}) => {
         </svg>
         <h1>YourUp</h1>
         <h6>You need a premium account to gain access</h6>
-        {user ? 
-        <button onClick={signOut} className="home-login-google">Sign Out</button>
-        : null}
         <StyledFirebaseAuth 
           uiConfig={uiConfig}
           firebaseAuth={firebase.auth()}
         />
-        <span>{user ? <span>{firebase.auth().currentUser.displayName}</span>: null}</span>
       </div>
       <div className="home-wave-container">
         <div className="home-wave">

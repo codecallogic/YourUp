@@ -130,9 +130,26 @@
     height: 20rem;
     width: 100vw;
 
+    @media only screen and(max-width: $super-small) {
+      height: 10rem !important;
+    }
+
+    @media only screen and(max-width: $small) {
+      height: 20rem;
+    }
+
     &-container {
       position: absolute;
       bottom: 0;
+
+      @media only screen and(min-width: $medium-small) {
+        position: relative;
+      }
+
+      @media only screen and(min-width: $medium) {
+        position: fixed;
+        bottom: 0;
+      }
     }
   }
 }
@@ -143,7 +160,7 @@
   justify-self: center;
   border: none;
   outline: none;
-  margin: 3rem 0 1rem 0;
+  margin: 2rem 0 1rem 0;
   transition: all 0.5s;
 }
 
