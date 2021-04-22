@@ -130,6 +130,18 @@ body {
     @media only screen and (max-width: 600px) {
       .home-wave {
         height: 20rem; } }
+    @media only screen and (min-width: 600px) {
+      .home-wave {
+        height: 40rem; } }
+    @media only screen and (min-width: 600px) and (min-height: 786px) {
+      .home-wave {
+        height: 100%; } }
+    @media only screen and (min-width: 768px) {
+      .home-wave {
+        height: 40rem; } }
+    @media only screen and (min-width: 1200px) {
+      .home-wave {
+        height: 100%; } }
     .home-wave-container {
       position: absolute;
       bottom: 0; }
@@ -138,8 +150,7 @@ body {
           position: relative; } }
       @media only screen and (min-width: 768px) {
         .home-wave-container {
-          position: fixed;
-          bottom: 0; } }
+          position: relative; } }
 
 #firebaseui_container {
   grid-column: 1/-1;
@@ -184,7 +195,7 @@ body {
   overflow: hidden;
   height: 100%;
   bottom: -1px;
-  background-image: linear-gradient(to top, transparent 10%, #3ad24d 10%, #101013 80%); }
+  background-image: linear-gradient(to top, transparent 5%, #3ad24d 10%, #101013 80%); }
 
 .bgTop {
   z-index: 15;

@@ -17,7 +17,7 @@ $dark-contrast: white;
 // BRANDs
 $color-facebook: #3351a3;
 
-// BREAKPOINTS
+// BREAKPOINTS WIDTH
 $extra-large: 1200px;
 $large: 992px;
 $medium: 768px;
@@ -25,6 +25,9 @@ $small: 600px;
 $medium-small: 500px;
 $extra-small: 375px;
 $super-small: 320px;
+
+// BREAKPOINTS HEIGHT
+$h-medium: 786px;
 
 *,
 *::before,

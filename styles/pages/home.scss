@@ -138,6 +138,22 @@
       height: 20rem;
     }
 
+    @media only screen and(min-width: $small) {
+      height: 40rem;
+    }
+
+    @media only screen and(min-width: $small) and (min-height: $h-medium) {
+      height: 100%;
+    }
+
+    @media only screen and(min-width: $medium) {
+      height: 40rem;
+    }
+
+    @media only screen and(min-width: $extra-large) {
+      height: 100%;
+    }
+
     &-container {
       position: absolute;
       bottom: 0;
@@ -147,8 +163,7 @@
       }
 
       @media only screen and(min-width: $medium) {
-        position: fixed;
-        bottom: 0;
+        position: relative;
       }
     }
   }
@@ -202,7 +217,7 @@
   bottom: -1px;
   background-image: linear-gradient(
     to top,
-    transparent 10%,
+    transparent 5%,
     $color-scheme-2 10%,
     $color-scheme-1 80%
   );
