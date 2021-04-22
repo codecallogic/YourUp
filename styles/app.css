@@ -8,8 +8,7 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
-  scroll-behavior: smooth;
-  padding: env(safe-area-inset); }
+  scroll-behavior: smooth; }
 
 html,
 body {
