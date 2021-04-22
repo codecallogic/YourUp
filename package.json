@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "watch:css": "node-sass styles/main.scss styles/app.css -w"
+    "watch:css": "node-sass styles/main.scss pages/app.css -w"
   },
   "dependencies": {
     "firebase": "^8.4.1",
