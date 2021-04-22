@@ -12,7 +12,8 @@ html {
 
 html,
 body {
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  padding: env(safe-area-inset); }
 
 body {
   font-family: freight-neo-pro, sans-serif;

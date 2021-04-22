@@ -46,6 +46,7 @@ html {
 html,
 body {
   overflow-x: hidden;
+  padding: env(safe-area-inset);
 }
 
 body {
