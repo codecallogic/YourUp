@@ -33,7 +33,7 @@ const Home = ({}) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
-      user ? window.location.href = `${API}/api/spotify/login` : null
+      user ? window.location.href = `${API}/spotify/login` : null
     })
   }, [])
   
