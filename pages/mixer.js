@@ -22,14 +22,13 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   const [dataExists, setDataExists] = useState(false)
   const [currentDevice, setCurrentDevice] = useState(null)
   
-  useEffect(() => {
+  useEffect( () => {
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
       user ? null : router.push('/')
-      invalidToken == true ? signOut() : null
+      invalidToken ? signOut() : null
     })
-    console.log(invalidToken)
-    console.log(spotifyData)
+
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
     Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
   }, [])
