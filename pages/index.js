@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import { useRouter } from 'next/router'
+import {API} from '../config'
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -32,7 +33,7 @@ const Home = ({}) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
-      user ? window.location.href = 'http://localhost:3001/api/spotify/login' : null
+      user ? window.location.href = `${API}/api/spotify/login` : null
     })
   }, [])
   

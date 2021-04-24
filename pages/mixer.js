@@ -25,8 +25,8 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
-      // user ? null : router.push('/')
-      // invalidToken == true ? signOut() : null
+      user ? null : router.push('/')
+      invalidToken == true ? signOut() : null
     })
     console.log(invalidToken)
     console.log(spotifyData)
