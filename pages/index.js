@@ -32,7 +32,7 @@ const Home = ({}) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
-      user ? router.push('/mixer') : null
+      user ? window.location.href = 'http://localhost:3001/api/spotify/login' : null
     })
   }, [])
   

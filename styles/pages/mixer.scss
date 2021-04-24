@@ -2,10 +2,11 @@
   grid-column: 1/-1;
   background-color: $color-scheme-1;
   display: grid;
-  grid-template-columns: 1fr;
+  justify-content: center;
   height: min-content;
   position: relative;
   color: white;
+  margin: 4rem 0;
 
   &-container {
     display: grid;
@@ -13,5 +14,43 @@
     background-color: $color-scheme-1;
     height: 100vh;
     position: relative;
+  }
+
+  &-song {
+    display: grid;
+
+    img {
+      width: 30rem;
+    }
+
+    button {
+      padding: 2rem 1rem;
+      margin: 2rem 0;
+      border-radius: 3rem;
+      background-image: linear-gradient(
+        90deg,
+        $color-scheme-2,
+        $color-scheme-3
+      );
+      border: none;
+      color: white;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  button {
+    padding: 2rem 1rem;
+    margin: 2rem 0;
+    border-radius: 3rem;
+    background-image: linear-gradient(90deg, $color-scheme-2, $color-scheme-4);
+    border: none;
+    color: white;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

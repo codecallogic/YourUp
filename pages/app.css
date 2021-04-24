@@ -246,16 +246,39 @@ body {
   grid-column: 1/-1;
   background-color: #101013;
   display: grid;
-  grid-template-columns: 1fr;
+  justify-content: center;
   height: min-content;
   position: relative;
-  color: white; }
+  color: white;
+  margin: 4rem 0; }
   .mixer-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     background-color: #101013;
     height: 100vh;
     position: relative; }
+  .mixer-song {
+    display: grid; }
+    .mixer-song img {
+      width: 30rem; }
+    .mixer-song button {
+      padding: 2rem 1rem;
+      margin: 2rem 0;
+      border-radius: 3rem;
+      background-image: linear-gradient(90deg, #3ad24d, #f0483d);
+      border: none;
+      color: white; }
+      .mixer-song button:hover {
+        cursor: pointer; }
+  .mixer button {
+    padding: 2rem 1rem;
+    margin: 2rem 0;
+    border-radius: 3rem;
+    background-image: linear-gradient(90deg, #3ad24d, #34a0ff);
+    border: none;
+    color: white; }
+    .mixer button:hover {
+      cursor: pointer; }
 
 @keyframes flash {
   0% {
