@@ -15,7 +15,7 @@ const spotifyService = Page => {
 
     let invalidToken = false
     let spotifyData = new Object()
-    let tracks = ['40riOy7x9W7GXjyGp4pjAv']
+    let tracks = ['4DqO37N1eWHWKhvcgCho9F', '2sNvitW3TxiTeC9xT9f2ZZ']
     if(token){newToken = token.split('=')[1]}
 
     const headerOptions = {
@@ -35,13 +35,15 @@ const spotifyService = Page => {
         spotifyData.track = responseTrack.data
 
       } catch (error) {
-        console.log(error)
+        // console.log(error.response.data.error.message)
         if(error){ 
           if(error.response.data){
             console.log(error.response.data)
             if(error.response.data.error){
               let message = error.response.data.error.message
+              console.log(message)
               message == 'Invalid access token' ? invalidToken = true : null
+              message == 'The access token expired' ? invalidToken = true : null
             }else{
               console.log(error)
             }

@@ -1,17 +1,18 @@
 module.exports = ({
   publicRuntimeConfig: {
     APP_NAME: 'YourUp',
-    API: 'http://54.151.3.30/api',
+    API: 'http://localhost:3001/api',
     PRODUCTION: false,
-    DOMAIN: 'http://54.151.3.30/',
+    DOMAIN: 'http://localhost:3000/',
   }
 })
+
 
 // module.exports = ({
 //   publicRuntimeConfig: {
 //     APP_NAME: 'YourUp',
-//     API: 'http://localhost:3001/api',
+//     API: 'http://54.151.3.30/api',
 //     PRODUCTION: false,
-//     DOMAIN: 'http://localhost:3000/',
+//     DOMAIN: 'http://54.151.3.30/',
 //   }
 // })

@@ -26,24 +26,31 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
       user ? null : router.push('/')
-      invalidToken ? signOut() : null
+      invalidToken ? signOut(): null
     })
+    console.log(spotifyData)
 
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
-    Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
+    // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
   }, [])
 
-  const signOut = () => {
-    firebase.auth().signOut()
-    setUser(null)
-    router.push('/')
+  const signOut = async () => {
+    try {
+      const responseSignout = await axios.post(`${API}/spotify/remove-cookie`)
+      console.log(responseSignout)
+      firebase.auth().signOut()
+      setUser(null)
+      router.push('/')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  const playSong = async () => {
-    let spotifyURI = spotifyData.track.tracks[0].uri
-
+  const playSong = async (spotifyURI) => {
     try {
+      // const responseLowerVolume = await axios.put(`${API}/spotify/volume/decrease`, {newToken})
       const responsePlay = await axios.post(`${API}/spotify/play`, {spotifyURI, newToken})
+      // const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/increase`, {newToken})
       console.log(responsePlay)
     } catch (error) {
       console.log(error)
@@ -53,13 +60,50 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   return (
     <div className="mixer-container">
       <div className="mixer">
-        <h1>Hello, {user ? user.displayName : null}</h1>
-        <div className="mixer-song">
-          <h1>{dataExists ? spotifyData.track.tracks[0].name : 'No song currently listed'}</h1>
-          <img src={dataExists ? spotifyData.track.tracks[0].album.images[0].url : `https://via.placeholder.com/300.png`} alt=""/>
-          <button onClick={playSong}>Play Song</button>
+        <div className="mixer-dj">
+          <div className="mixer-dj-inTheMix">
+            <img src="https://images.unsplash.com/photo-1553830591-d8632a99e6ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2111&q=80" alt="In The Mix"/>
+            <div>
+              <span>In the Mix</span>
+              <span>Now playing</span>
+            </div>
+          </div>
+          <div className="mixer-dj-upNext">
+            <span>Up next</span>
+            <div className="mixer-dj-upNext-photos">
+              <img src="https://images.unsplash.com/photo-1610737245930-e4f41bab0b6b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80" alt=""/>
+              <img src="https://images.unsplash.com/photo-1613672710117-0910509f9e43?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80" alt=""/>
+              <img src="https://images.unsplash.com/photo-1528049711433-f04378a08933?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80" alt=""/>
+              <img src="https://images.unsplash.com/photo-1582793770580-4cde3de01a62?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2972&q=80" alt=""/>
+            </div>
+          </div>
         </div>
-        <button onClick={signOut}>Sign Out</button>
+        <div className="mixer-track">
+          <div className="mixer-track-current" onClick={() => playSong(spotifyData.track.tracks[0].uri)}>
+            <img src={!invalidToken ? spotifyData.track.tracks[0].album.images[0].url : null} alt=""/>
+            <span>{!invalidToken ? spotifyData.track.tracks[0].artists[0].name : null}</span>
+            <span>{!invalidToken ? spotifyData.track.tracks[0].name : null}</span>
+          </div>
+          <div className="mixer-track-next" onClick={() => playSong(spotifyData.track.tracks[1].uri)} >
+            <img src={!invalidToken ? spotifyData.track.tracks[1].album.images[0].url : null} alt=""/>
+            <span>{!invalidToken ? spotifyData.track.tracks[1].artists[0].name : null}</span>
+            <span>{!invalidToken ? spotifyData.track.tracks[1].name : null}</span>
+          </div>
+        </div>
+        <div className="mixer-controls">
+          <svg className="mixer-controls-single"><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+          <div className="mixer-controls-double">
+            <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+            <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+          </div>
+          <svg className="mixer-controls-replay"><use xlinkHref="sprite.svg?#icon-replay"></use></svg>
+        </div>
+        <div className="mixer-soundeffects">
+          <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+          <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+          <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+          <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+        </div>
       </div>
     </div>
   )
