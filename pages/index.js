@@ -18,25 +18,20 @@ const Home = ({}) => {
   const router = useRouter()
 
   const [user, setUser] = useState(null)
+  const [error, setError] = useState(null)
 
   const uiConfig = {
     signInFlow: 'popup',
+    signInSuccessUrl: `${API}/spotify/login`,
     signInOptions: [
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
     ],
     callbacks: {
-      signInSuccessWithAuthResult: () => false
+      signInSuccessWithAuthResult: (authResult, redirectUrl) => {return true},
+      signInFailure: (error) => console.log(error)
     }
   }
-
-  useEffect(() => {
-    firebase.auth().onAuthStateChanged( user => {
-      setUser(user)
-      user ? window.location.href = `${API}/spotify/login` : null
-    })
-  }, [])
-  
   return (
     <div className="home-container">
       <div className="home">

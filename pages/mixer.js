@@ -23,12 +23,12 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   const [currentDevice, setCurrentDevice] = useState(null)
   
   useEffect( () => {
+    invalidToken == true ? signOut(): null
+    
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
-      user ? null : router.push('/')
-      invalidToken ? signOut(): null
+      user ? null : (signOut(), router.push('/'))
     })
-    console.log(spotifyData)
 
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
     // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
@@ -37,7 +37,6 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   const signOut = async () => {
     try {
       const responseSignout = await axios.post(`${API}/spotify/remove-cookie`)
-      console.log(responseSignout)
       firebase.auth().signOut()
       setUser(null)
       router.push('/')
@@ -80,14 +79,14 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
         </div>
         <div className="mixer-track">
           <div className="mixer-track-current" onClick={() => playSong(spotifyData.track.tracks[0].uri)}>
-            <img src={!invalidToken ? spotifyData.track.tracks[0].album.images[0].url : null} alt=""/>
-            <span>{!invalidToken ? spotifyData.track.tracks[0].artists[0].name : null}</span>
-            <span>{!invalidToken ? spotifyData.track.tracks[0].name : null}</span>
+            <img src={invalidToken == false ? spotifyData.track.tracks[0].album.images[0].url : null} alt=""/>
+            <span>{invalidToken == false ? spotifyData.track.tracks[0].artists[0].name : null}</span>
+            <span>{invalidToken == false ? spotifyData.track.tracks[0].name : null}</span>
           </div>
           <div className="mixer-track-next" onClick={() => playSong(spotifyData.track.tracks[1].uri)} >
-            <img src={!invalidToken ? spotifyData.track.tracks[1].album.images[0].url : null} alt=""/>
-            <span>{!invalidToken ? spotifyData.track.tracks[1].artists[0].name : null}</span>
-            <span>{!invalidToken ? spotifyData.track.tracks[1].name : null}</span>
+            <img src={invalidToken == false ? spotifyData.track.tracks[1].album.images[0].url : null} alt=""/>
+            <span>{invalidToken == false ? spotifyData.track.tracks[1].artists[0].name : null}</span>
+            <span>{invalidToken == false ? spotifyData.track.tracks[1].name : null}</span>
           </div>
         </div>
         <div className="mixer-controls">

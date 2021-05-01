@@ -1,6 +1,14 @@
-import cooke from 'js-cookie'
+import cookie from 'js-cookie'
 
-export const getSpotifyCookie = (req) => {
+export const getCookie = (key, req) => {
+  return process.browser ? getCookieFromBrowser(key) : getSpotifyCookie(key, req)
+}
+
+export const getCookieFromBrowser = (key) => {
+  return cookies.get(key)
+}
+
+export const getSpotifyCookie = (key, req) => {
   if(!req.headers.cookie){
     return undefined
   }
