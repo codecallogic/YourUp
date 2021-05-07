@@ -21,13 +21,15 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   const [user, setUser] = useState(null)
   const [dataExists, setDataExists] = useState(false)
   const [currentDevice, setCurrentDevice] = useState(null)
+  const [controls, setControls]  = useState(true)
   
   useEffect( () => {
     invalidToken == true ? signOut(): null
     
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
-      user ? null : (signOut(), router.push('/'))
+      console.log(user)
+      user !== null ? null : (signOut(), router.push('/'))
     })
 
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
@@ -53,6 +55,12 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
       console.log(responsePlay)
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  const lowerControls = (e) => {
+    if(e.target.className == 'mixer-controls-container'){
+      setControls(!controls)
     }
   }
 
@@ -89,19 +97,21 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
             <span>{invalidToken == false ? spotifyData.track.tracks[1].name : null}</span>
           </div>
         </div>
-        <div className="mixer-controls">
-          <svg className="mixer-controls-single"><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
-          <div className="mixer-controls-double">
-            <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
-            <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+        <div className={`mixer-controls-container`} style={{height: controls == false ? `0%!important` : `auto`}} onClick={(e) => lowerControls(e)}>
+          <div className={`mixer-controls` + (controls == false ? ` none` : ` show`)}>
+            <svg className="mixer-controls-single"><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+            <div className="mixer-controls-double">
+              <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+              <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+            </div>
+            <svg className="mixer-controls-replay"><use xlinkHref="sprite.svg?#icon-replay"></use></svg>
           </div>
-          <svg className="mixer-controls-replay"><use xlinkHref="sprite.svg?#icon-replay"></use></svg>
-        </div>
-        <div className="mixer-soundeffects">
-          <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
-          <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
-          <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
-          <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+          <div className={`mixer-soundeffects` + (controls == false ? ` none` : ` show`)}>
+            <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+            <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+            <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+            <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
+          </div>
         </div>
       </div>
     </div>

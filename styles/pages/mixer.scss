@@ -1,9 +1,10 @@
 .mixer {
   grid-column: 1/-1;
   background-color: $color-scheme-1;
-  display: grid;
-  height: min-content;
-  margin: 2rem 0;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  height: auto;
 
   &-container {
     display: grid;
@@ -19,6 +20,7 @@
     align-items: center;
     color: $dark-contrast;
     padding: 0 3rem 2rem 3rem;
+    height: 15rem;
 
     &-inTheMix {
       height: 100%;
@@ -79,11 +81,18 @@
   }
 
   &-track {
+    flex-grow: 1;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+
     &-current {
+      flex-grow: 1;
       display: flex;
       align-items: center;
       background-color: $color-dark-red;
-      padding: 5rem 1rem;
+      padding: 5rem 3rem;
+      height: auto;
       transition: all 0.5s ease-in-out;
 
       img {
@@ -110,16 +119,17 @@
 
       &:hover {
         cursor: pointer;
-        transform: scale(1.1);
         z-index: 10;
       }
     }
 
     &-next {
+      flex-grow: 1;
       display: flex;
       align-items: center;
       background-color: $color-dark-green;
-      padding: 5rem 1rem;
+      padding: 5rem 3rem;
+      height: auto;
       transition: all 0.5s ease-in-out;
 
       img {
@@ -146,7 +156,6 @@
 
       &:hover {
         cursor: pointer;
-        transform: scale(1.1);
         z-index: 10;
       }
     }
@@ -155,52 +164,83 @@
   &-controls {
     display: flex;
     align-items: center;
-    padding: 2rem 3rem;
+    padding: 3rem 3rem;
     justify-content: space-between;
     position: relative;
 
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      background-color: $color-scheme-5;
-      height: 0.5rem;
-      width: 3rem;
-      border-radius: 3rem;
-      margin-top: -0.5rem;
-      margin-left: -0.5rem;
-      transition: all 0.5s ease-in-out;
+    &-container {
+      width: 100%;
+      height: 100%;
+      padding: 0 0 2rem 0;
+      border: none;
+      outline: none;
+      transition: all 1s ease-in-out;
+      position: relative;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: -2.5rem;
+        left: 45%;
+        background-color: $color-scheme-1;
+        height: 2.5rem;
+        width: 6rem;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        z-index: 100;
+      }
+
+      &:hover::before {
+        cursor: pointer;
+      }
     }
 
-    &:hover::before {
-      margin-top: -1rem;
-      cursor: pointer;
-    }
+    // &:before {
+    //   content: '';
+    //   position: absolute;
+    //   top: -0.5rem;
+    //   left: 50%;
+    //   background-color: $color-scheme-2;
+    //   height: 0.3rem;
+    //   width: 3rem;
+    //   border-radius: 3rem;
+    //   margin-top: -0.3rem;
+    //   margin-left: -0.5rem;
+    //   transition: all 0.5s ease-in-out;
+    // }
 
-    &:after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      background-color: $color-scheme-5;
-      height: 0.5rem;
-      width: 3rem;
-      border-radius: 3rem;
-      margin-top: 0.5rem;
-      margin-left: -0.5rem;
-      transition: all 0.5s ease-in-out;
-    }
+    // &:hover::before {
+    //   cursor: pointer;
+    // }
 
-    &:hover::after {
-      margin-top: 1rem;
-      cursor: pointer;
-    }
+    // &:after {
+    //   content: '';
+    //   position: absolute;
+    //   top: -1.8rem;
+    //   left: 50%;
+    //   background-color: $color-scheme-2;
+    //   height: 0.3rem;
+    //   width: 3rem;
+    //   border-radius: 3rem;
+    //   margin-top: 0.3rem;
+    //   margin-left: -0.5rem;
+    //   transition: all 0.5s ease-in-out;
+    // }
+
+    // &:hover::after {
+    //   cursor: pointer;
+    // }
 
     &-single {
       height: 10rem;
       width: 5rem;
-      fill: $color-soft-blue;
+      fill: $color-shade-subtle-gray;
+
+      &:hover {
+        cursor: pointer;
+        transform: scaleX(1.1);
+        fill: $color-soft-blue;
+      }
     }
 
     &-double {
@@ -210,6 +250,12 @@
         height: 10rem;
         width: 5rem;
         fill: $color-shade-subtle-gray;
+
+        &:hover {
+          cursor: pointer;
+          transform: scaleX(1.1);
+          fill: $color-soft-blue;
+        }
       }
     }
 
@@ -217,6 +263,12 @@
       height: 10rem;
       width: 10rem;
       fill: $color-shade-subtle-gray;
+
+      &:hover {
+        cursor: pointer;
+        transform: scaleX(1.1);
+        fill: $color-soft-blue;
+      }
     }
   }
 
@@ -228,6 +280,25 @@
       height: 5rem;
       width: 5rem;
       fill: $color-shade-subtle-gray;
+
+      &:hover {
+        cursor: pointer;
+        transform: scaleX(1.1);
+        fill: $color-soft-blue;
+      }
     }
   }
+}
+
+.hide {
+  height: 0%;
+}
+
+.show {
+  animation: slideUp 1s ease-in-out;
+}
+
+.none {
+  display: none;
+  height: 0%;
 }

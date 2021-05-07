@@ -245,9 +245,10 @@ body {
 .mixer {
   grid-column: 1/-1;
   background-color: #101013;
-  display: grid;
-  height: min-content;
-  margin: 2rem 0; }
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  height: auto; }
   .mixer-container {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -259,7 +260,8 @@ body {
     display: flex;
     align-items: center;
     color: white;
-    padding: 0 3rem 2rem 3rem; }
+    padding: 0 3rem 2rem 3rem;
+    height: 15rem; }
     .mixer-dj-inTheMix {
       height: 100%;
       display: flex;
@@ -297,108 +299,118 @@ body {
         border-radius: 50%; }
         .mixer-dj-upNext-photos img:not(:last-child) {
           margin-right: -1rem; }
-  .mixer-track-current {
+  .mixer-track {
+    flex-grow: 1;
+    height: auto;
     display: flex;
-    align-items: center;
-    background-color: #3c0001;
-    padding: 5rem 1rem;
-    transition: all 0.5s ease-in-out; }
-    .mixer-track-current img {
-      box-sizing: content-box;
-      object-fit: cover;
-      image-rendering: pixelated;
-      image-resolution: from-image 300dpi;
-      width: 6rem;
-      height: 6rem;
-      border-radius: 50%; }
-    .mixer-track-current span {
-      text-transform: uppercase;
-      font-size: 1.6rem;
-      color: #a1a1a1;
-      margin-left: 1rem; }
-      .mixer-track-current span:last-child {
-        text-transform: capitalize;
-        color: white; }
-    .mixer-track-current:hover {
-      cursor: pointer;
-      transform: scale(1.1);
-      z-index: 10; }
-  .mixer-track-next {
-    display: flex;
-    align-items: center;
-    background-color: #1e2c1e;
-    padding: 5rem 1rem;
-    transition: all 0.5s ease-in-out; }
-    .mixer-track-next img {
-      box-sizing: content-box;
-      object-fit: cover;
-      image-rendering: pixelated;
-      image-resolution: from-image 300dpi;
-      width: 6rem;
-      height: 6rem;
-      border-radius: 50%; }
-    .mixer-track-next span {
-      text-transform: uppercase;
-      font-size: 1.6rem;
-      color: #a1a1a1;
-      margin-left: 1rem; }
-      .mixer-track-next span:last-child {
-        text-transform: capitalize;
-        color: white; }
-    .mixer-track-next:hover {
-      cursor: pointer;
-      transform: scale(1.1);
-      z-index: 10; }
+    flex-direction: column; }
+    .mixer-track-current {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      background-color: #3c0001;
+      padding: 5rem 3rem;
+      height: auto;
+      transition: all 0.5s ease-in-out; }
+      .mixer-track-current img {
+        box-sizing: content-box;
+        object-fit: cover;
+        image-rendering: pixelated;
+        image-resolution: from-image 300dpi;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%; }
+      .mixer-track-current span {
+        text-transform: uppercase;
+        font-size: 1.6rem;
+        color: #a1a1a1;
+        margin-left: 1rem; }
+        .mixer-track-current span:last-child {
+          text-transform: capitalize;
+          color: white; }
+      .mixer-track-current:hover {
+        cursor: pointer;
+        z-index: 10; }
+    .mixer-track-next {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      background-color: #1e2c1e;
+      padding: 5rem 3rem;
+      height: auto;
+      transition: all 0.5s ease-in-out; }
+      .mixer-track-next img {
+        box-sizing: content-box;
+        object-fit: cover;
+        image-rendering: pixelated;
+        image-resolution: from-image 300dpi;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%; }
+      .mixer-track-next span {
+        text-transform: uppercase;
+        font-size: 1.6rem;
+        color: #a1a1a1;
+        margin-left: 1rem; }
+        .mixer-track-next span:last-child {
+          text-transform: capitalize;
+          color: white; }
+      .mixer-track-next:hover {
+        cursor: pointer;
+        z-index: 10; }
   .mixer-controls {
     display: flex;
     align-items: center;
-    padding: 2rem 3rem;
+    padding: 3rem 3rem;
     justify-content: space-between;
     position: relative; }
-    .mixer-controls:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      background-color: #868890;
-      height: 0.5rem;
-      width: 3rem;
-      border-radius: 3rem;
-      margin-top: -0.5rem;
-      margin-left: -0.5rem;
-      transition: all 0.5s ease-in-out; }
-    .mixer-controls:hover::before {
-      margin-top: -1rem;
-      cursor: pointer; }
-    .mixer-controls:after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      background-color: #868890;
-      height: 0.5rem;
-      width: 3rem;
-      border-radius: 3rem;
-      margin-top: 0.5rem;
-      margin-left: -0.5rem;
-      transition: all 0.5s ease-in-out; }
-    .mixer-controls:hover::after {
-      margin-top: 1rem;
-      cursor: pointer; }
+    .mixer-controls-container {
+      width: 100%;
+      height: 100%;
+      padding: 0 0 2rem 0;
+      border: none;
+      outline: none;
+      transition: all 1s ease-in-out;
+      position: relative; }
+      .mixer-controls-container:before {
+        content: '';
+        position: absolute;
+        top: -2.5rem;
+        left: 45%;
+        background-color: #101013;
+        height: 2.5rem;
+        width: 6rem;
+        border-top-left-radius: 2rem;
+        border-top-right-radius: 2rem;
+        z-index: 100; }
+      .mixer-controls-container:hover::before {
+        cursor: pointer; }
     .mixer-controls-single {
       height: 10rem;
       width: 5rem;
-      fill: #14a3ff; }
+      fill: #222222; }
+      .mixer-controls-single:hover {
+        cursor: pointer;
+        transform: scaleX(1.1);
+        fill: #14a3ff; }
     .mixer-controls-double {
       display: flex; }
       .mixer-controls-double svg {
         height: 10rem;
         width: 5rem;
         fill: #222222; }
+        .mixer-controls-double svg:hover {
+          cursor: pointer;
+          transform: scaleX(1.1);
+          fill: #14a3ff; }
     .mixer-controls-replay {
       height: 10rem;
       width: 10rem;
       fill: #222222; }
+      .mixer-controls-replay:hover {
+        cursor: pointer;
+        transform: scaleX(1.1);
+        fill: #14a3ff; }
   .mixer-soundeffects {
     display: flex;
     justify-content: space-around; }
@@ -406,6 +418,20 @@ body {
       height: 5rem;
       width: 5rem;
       fill: #222222; }
+      .mixer-soundeffects svg:hover {
+        cursor: pointer;
+        transform: scaleX(1.1);
+        fill: #14a3ff; }
+
+.hide {
+  height: 0%; }
+
+.show {
+  animation: slideUp 1s ease-in-out; }
+
+.none {
+  display: none;
+  height: 0%; }
 
 @keyframes flash {
   0% {
@@ -422,3 +448,9 @@ body {
     transform: translateX(-25%) translateZ(0) scaleY(0.55); }
   100% {
     transform: translateX(-50%) translateZ(0) scaleY(1); } }
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(100%); }
+  100% {
+    transform: translateY(0%); } }
