@@ -13,8 +13,7 @@ html {
 
 html,
 body {
-  overflow-x: hidden;
-  overflow-y: hidden; }
+  overflow-x: hidden; }
 
 body {
   font-family: freight-neo-pro, sans-serif;
@@ -368,7 +367,6 @@ body {
     transition: all 1s ease-in-out; }
     .mixer-controls-container {
       width: 100%;
-      height: 100%;
       padding: 0 0 3rem 0;
       border: none;
       outline: none;
@@ -439,7 +437,8 @@ body {
 
 .hide {
   visibility: hidden;
-  margin-bottom: -5rem; }
+  padding: 0 !important;
+  margin: 0 !important; }
 
 .open {
   position: absolute;
@@ -463,8 +462,8 @@ body {
   animation: slideUp 1s ease-in-out; }
 
 .none > * {
-  width: 0px !important;
-  height: 0px !important; }
+  width: 0rem !important;
+  height: 0rem !important; }
 
 @keyframes flash {
   0% {

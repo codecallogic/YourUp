@@ -171,7 +171,6 @@
 
     &-container {
       width: 100%;
-      height: 100%;
       padding: 0 0 3rem 0;
       border: none;
       outline: none;
@@ -273,7 +272,8 @@
 
 .hide {
   visibility: hidden;
-  margin-bottom: -5rem;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .open {
@@ -298,6 +298,6 @@
 }
 
 .none > * {
-  width: 0px !important;
-  height: 0px !important;
+  width: 0rem !important;
+  height: 0rem !important;
 }
