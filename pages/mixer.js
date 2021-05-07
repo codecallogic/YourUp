@@ -59,9 +59,10 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   }
 
   const lowerControls = (e) => {
-    if(e.target.className == 'mixer-controls-container'){
-      setControls(!controls)
-    }
+    console.log(e.target.className.animVal)
+    if(e.target.className == 'mixer-controls-container'){setControls(!controls)}
+    if(e.target.className == 'mixer-controls-toggle' ){setControls(!controls)}
+    if(e.target.className.animVal == 'toggle' ){setControls(!controls)}
   }
 
   return (
@@ -97,8 +98,17 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
             <span>{invalidToken == false ? spotifyData.track.tracks[1].name : null}</span>
           </div>
         </div>
-        <div className={`mixer-controls-container`} style={{height: controls == false ? `0%!important` : `auto`}} onClick={(e) => lowerControls(e)}>
-          <div className={`mixer-controls` + (controls == false ? ` none` : ` show`)}>
+        <div className={`mixer-controls-container`} style={{height: controls == false ? `0% !important` : ` min-content `}} onClick={(e) => lowerControls(e)}>
+          {controls ? 
+          
+          <div className="mixer-controls-toggle" onClick={(e) => lowerControls(e)}><svg className="toggle" onClick={(e) => lowerControls(e)}><use className="toggle" onClick={(e) => lowerControls(e)} xlinkHref="sprite.svg#icon-transit_enterexit"></use></svg></div>
+
+          : 
+
+          <div className="mixer-controls-toggle open" onClick={(e) => lowerControls(e)}><svg className="toggle" onClick={(e) => lowerControls(e)}><use className="toggle" onClick={(e) => lowerControls(e)} xlinkHref="sprite.svg#icon-open_in_full"></use></svg></div>
+
+          }
+          <div className={`mixer-controls` + (controls == false ? ` none hide` : ` show`)}>
             <svg className="mixer-controls-single"><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
             <div className="mixer-controls-double">
               <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
@@ -106,7 +116,7 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
             </div>
             <svg className="mixer-controls-replay"><use xlinkHref="sprite.svg?#icon-replay"></use></svg>
           </div>
-          <div className={`mixer-soundeffects` + (controls == false ? ` none` : ` show`)}>
+          <div className={`mixer-soundeffects` + (controls == false ? ` none hide` : ` show`)}>
             <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
             <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>
             <svg><use xlinkHref="sprite.svg?#icon-cassette"></use></svg>

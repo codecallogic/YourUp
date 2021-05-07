@@ -20,7 +20,7 @@
     align-items: center;
     color: $dark-contrast;
     padding: 0 3rem 2rem 3rem;
-    height: 15rem;
+    height: auto;
 
     &-inTheMix {
       height: 100%;
@@ -33,8 +33,8 @@
         box-sizing: content-box;
         image-rendering: crisp-edges;
         image-rendering: pixelated;
-        height: 6.5rem;
-        width: 6.5rem;
+        width: 6rem;
+        height: 6rem;
         border-radius: 50%;
       }
 
@@ -167,27 +167,28 @@
     padding: 3rem 3rem;
     justify-content: space-between;
     position: relative;
+    transition: all 1s ease-in-out;
 
     &-container {
       width: 100%;
       height: 100%;
-      padding: 0 0 2rem 0;
+      padding: 0 0 3rem 0;
       border: none;
       outline: none;
-      transition: all 1s ease-in-out;
       position: relative;
 
       &:before {
         content: '';
         position: absolute;
         top: -2.5rem;
-        left: 45%;
+        left: 50%;
+        margin-left: -1.5rem;
         background-color: $color-scheme-1;
         height: 2.5rem;
         width: 6rem;
         border-top-left-radius: 2rem;
         border-top-right-radius: 2rem;
-        z-index: 100;
+        z-index: 20;
       }
 
       &:hover::before {
@@ -195,46 +196,24 @@
       }
     }
 
-    // &:before {
-    //   content: '';
-    //   position: absolute;
-    //   top: -0.5rem;
-    //   left: 50%;
-    //   background-color: $color-scheme-2;
-    //   height: 0.3rem;
-    //   width: 3rem;
-    //   border-radius: 3rem;
-    //   margin-top: -0.3rem;
-    //   margin-left: -0.5rem;
-    //   transition: all 0.5s ease-in-out;
-    // }
+    &-toggle {
+      position: absolute;
+      top: -2.5rem;
+      left: 50%;
+      z-index: 100;
 
-    // &:hover::before {
-    //   cursor: pointer;
-    // }
-
-    // &:after {
-    //   content: '';
-    //   position: absolute;
-    //   top: -1.8rem;
-    //   left: 50%;
-    //   background-color: $color-scheme-2;
-    //   height: 0.3rem;
-    //   width: 3rem;
-    //   border-radius: 3rem;
-    //   margin-top: 0.3rem;
-    //   margin-left: -0.5rem;
-    //   transition: all 0.5s ease-in-out;
-    // }
-
-    // &:hover::after {
-    //   cursor: pointer;
-    // }
+      svg {
+        width: 3rem;
+        height: 3rem;
+        fill: white;
+      }
+    }
 
     &-single {
       height: 10rem;
       width: 5rem;
       fill: $color-shade-subtle-gray;
+      transition: all 1s ease-in-out;
 
       &:hover {
         cursor: pointer;
@@ -245,17 +224,17 @@
 
     &-double {
       display: flex;
+      transition: all 1s ease-in-out;
 
       svg {
         height: 10rem;
         width: 5rem;
         fill: $color-shade-subtle-gray;
+      }
 
-        &:hover {
-          cursor: pointer;
-          transform: scaleX(1.1);
-          fill: $color-soft-blue;
-        }
+      &:hover > svg {
+        cursor: pointer;
+        fill: $color-soft-blue;
       }
     }
 
@@ -263,6 +242,7 @@
       height: 10rem;
       width: 10rem;
       fill: $color-shade-subtle-gray;
+      transition: all 1s ease-in-out;
 
       &:hover {
         cursor: pointer;
@@ -275,6 +255,7 @@
   &-soundeffects {
     display: flex;
     justify-content: space-around;
+    transition: all 1s ease-in-out;
 
     svg {
       height: 5rem;
@@ -291,14 +272,32 @@
 }
 
 .hide {
-  height: 0%;
+  visibility: hidden;
+  margin-bottom: -5rem;
+}
+
+.open {
+  position: absolute;
+  top: -2rem;
+  left: 50%;
+  margin-left: 0.5rem;
+  z-index: 100;
+
+  svg {
+    height: 2rem !important;
+    width: 2rem !important;
+  }
 }
 
 .show {
+  -webkit-animation: slideUp 1s ease-in-out; /* Safari & Chrome */
+  -moz-animation: slideUp 1s ease-in-out; /* Firefox */
+  -ms-animation: slideUp 1s ease-in-out; /* Internet Explorer */
+  -o-animation: slideUp 1s ease-in-out; /* Opera */
   animation: slideUp 1s ease-in-out;
 }
 
-.none {
-  display: none;
-  height: 0%;
+.none > * {
+  width: 0px !important;
+  height: 0px !important;
 }
