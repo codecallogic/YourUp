@@ -90,10 +90,11 @@
       flex-grow: 1;
       display: flex;
       align-items: center;
-      background-color: $color-dark-red;
+      background-color: white;
       padding: 5rem 3rem;
       height: auto;
       transition: all 0.5s ease-in-out;
+      position: relative;
 
       img {
         box-sizing: content-box;
@@ -115,6 +116,78 @@
           text-transform: capitalize;
           color: white;
         }
+      }
+
+      &:hover {
+        cursor: pointer;
+        z-index: 10;
+      }
+
+      &-off {
+        color: $color-scheme-1 !important;
+        font-size: 1.8rem;
+      }
+    }
+
+    &-next {
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      background-image: linear-gradient(
+          90deg,
+          $color-shade-dark-gray,
+          $color-shade-subtle-gray,
+          $color-shade-gray,
+          transparent
+        ),
+        linear-gradient(
+          90deg,
+          $color-shade-dark-gray,
+          $color-shade-subtle-gray,
+          $color-shade-gray,
+          transparent
+        ),
+        linear-gradient(
+          90deg,
+          $color-shade-dark-gray,
+          $color-shade-subtle-gray,
+          $color-shade-gray,
+          transparent
+        );
+      background-blend-mode: screen;
+      padding: 5rem 3rem;
+      height: auto;
+      width: 100%;
+      transition: all 1s ease-in-out;
+      position: relative;
+      // animation-name: background-live;
+      // animation-duration: 1s;
+      // animation-iteration-count: infinite;
+      // animation-direction: alternate;
+      // animation-timing-function: linear;
+
+      img {
+        box-sizing: content-box;
+        object-fit: cover;
+        image-rendering: pixelated;
+        image-resolution: from-image 300dpi;
+        width: 6rem;
+        height: 6rem;
+        border-radius: 50%;
+        z-index: 10;
+      }
+
+      span {
+        text-transform: uppercase;
+        font-size: 1.6rem;
+        color: white;
+        margin-left: 1rem;
+
+        &:last-child {
+          text-transform: capitalize;
+          color: white;
+        }
+        z-index: 10;
       }
 
       &:hover {
@@ -123,40 +196,54 @@
       }
     }
 
-    &-next {
-      flex-grow: 1;
+    &-ripples-current {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
       display: flex;
+      justify-content: center;
       align-items: center;
-      background-color: $color-dark-green;
-      padding: 5rem 3rem;
-      height: auto;
-      transition: all 0.5s ease-in-out;
 
-      img {
-        box-sizing: content-box;
-        object-fit: cover;
-        image-rendering: pixelated;
-        image-resolution: from-image 300dpi;
-        width: 6rem;
-        height: 6rem;
-        border-radius: 50%;
+      @media only screen and (max-width: $medium-small) {
+        width: 80%;
       }
 
       span {
-        text-transform: uppercase;
-        font-size: 1.6rem;
-        color: $color-shade-gray;
-        margin-left: 1rem;
+        position: absolute;
+        box-sizing: border-box;
+        border-left: 0.4rem solid $color-scheme-2;
+        border-right: 0.4rem solid $color-scheme-4;
+        border-top-left-radius: 3rem;
+        border-top-right-radius: 3rem;
+        border-bottom-right-radius: 3rem;
+        border-bottom-left-radius: 3rem;
+        animation: ripple 5s linear infinite;
+        animation-delay: calc(-0.5s * var(--i));
+      }
+    }
 
-        &:last-child {
-          text-transform: capitalize;
-          color: white;
-        }
+    &-ripples-next {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      @media only screen and (max-width: $medium-small) {
+        width: 80%;
       }
 
-      &:hover {
-        cursor: pointer;
-        z-index: 10;
+      span {
+        position: absolute;
+        box-sizing: border-box;
+        border-left: 0.4rem solid $color-scheme-2;
+        border-right: 0.4rem solid $color-scheme-2;
+        animation: ripple 5s linear infinite;
+        animation-delay: calc(-0.5s * var(--i));
+        transform: rotateX(180deg);
       }
     }
   }
@@ -212,7 +299,7 @@
       height: 10rem;
       width: 5rem;
       fill: $color-shade-subtle-gray;
-      transition: all 1s ease-in-out;
+      transition: all 0.5s ease-in-out;
 
       &:hover {
         cursor: pointer;
@@ -229,6 +316,7 @@
         height: 10rem;
         width: 5rem;
         fill: $color-shade-subtle-gray;
+        transition: all 0.5s ease-in-out;
       }
 
       &:hover > svg {
@@ -260,6 +348,7 @@
       height: 5rem;
       width: 5rem;
       fill: $color-shade-subtle-gray;
+      transition: all 0.5s ease-in-out;
 
       &:hover {
         cursor: pointer;
@@ -300,4 +389,8 @@
 .none > * {
   width: 0rem !important;
   height: 0rem !important;
+}
+
+.transparent {
+  background-image: rgba($color-shade-dark-gray, 0.3);
 }

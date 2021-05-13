@@ -32,6 +32,7 @@ const Home = ({}) => {
       signInFailure: (error) => console.log(error)
     }
   }
+  
   return (
     <div className="home-container">
       <div className="home">
