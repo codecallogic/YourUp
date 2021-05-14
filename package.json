@@ -9,6 +9,7 @@
     "watch:css": "node-sass styles/main.scss pages/app.css -w"
   },
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
     "axios": "^0.21.1",
     "cookies": "^0.8.0",
     "firebase": "^8.4.1",
