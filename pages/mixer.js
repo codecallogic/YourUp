@@ -37,11 +37,6 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
 
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
     // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
-
-    let el = document.querySelector('.mixer-track-current'); 
-
-    el.addEventListener("touchstart", runStart, false);
-    el.addEventListener("touchmove", handleMove, false);
   }, [])
 
   const signOut = async () => {
@@ -72,14 +67,6 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
     if(e.target.className == 'mixer-controls-container'){setControls(!controls)}
     if(e.target.className == 'mixer-controls-toggle' ){setControls(!controls)}
     if(e.target.className.animVal == 'toggle' ){setControls(!controls)}
-  }
-
-  const runStart = () => {
-    console.log('Hello')
-  }
-
-  const handleMove = () => {
-    console.log('Moving')
   }
 
   const onDragStart = (e, uri) => {

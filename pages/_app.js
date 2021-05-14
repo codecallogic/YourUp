@@ -11,6 +11,7 @@ function MyApp({ Component, pageProps }) {
       <link rel="stylesheet" href="https://use.typekit.net/xne7ixk.css"></link>
       <link rel="stylesheet" href="https://use.typekit.net/xne7ixk.css"></link>
       <link rel="stylesheet" href="https://use.typekit.net/xne7ixk.css"></link>
+      <script src="DragDropTouch.js"></script>
       </>
     </Head>
     <Component {...pageProps} />
