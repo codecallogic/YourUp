@@ -51,16 +51,16 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   }
 
   const playSong = async (spotifyURI, newCounter) => {
-    // setNextTrack(spotifyData.track.tracks[newCounter])
+    setNextTrack(spotifyData.track.tracks[newCounter])
     
-    // try {
-    //   // const responseLowerVolume = await axios.put(`${API}/spotify/volume/decrease`, {newToken})
-    //   const responsePlay = await axios.post(`${API}/spotify/play`, {spotifyURI, newToken})
-    //   // const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/increase`, {newToken})
-    //   setCurrentTrack(responsePlay.data.item)
-    // } catch (error) {
-    //   console.log(error)
-    // }
+    try {
+      // const responseLowerVolume = await axios.put(`${API}/spotify/volume/decrease`, {newToken})
+      const responsePlay = await axios.post(`${API}/spotify/play`, {spotifyURI, newToken})
+      // const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/increase`, {newToken})
+      setCurrentTrack(responsePlay.data.item)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const lowerControls = (e) => {
