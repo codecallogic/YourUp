@@ -22,7 +22,7 @@ const spotifyService = Page => {
     if(token){newToken = token.split('=')[1]; invalidToken = false;}
 
     let spotifyData = new Object()
-    let tracks = ['2GQEM9JuHu30sGFvRYeCxz', '5IlR8G1OEn99cV3WB49O7o', '4DqO37N1eWHWKhvcgCho9F', '7hofL9YADeFqnsFdDrxdbs']
+    let tracks = ['2SxeNZphx2bH5kju5Ntu8P', '5IlR8G1OEn99cV3WB49O7o', '4DqO37N1eWHWKhvcgCho9F', '7hofL9YADeFqnsFdDrxdbs', '2GQEM9JuHu30sGFvRYeCxz']
 
     const headerOptions = {
       Accept: 'application/json',
