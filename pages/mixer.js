@@ -137,7 +137,16 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
                 <span style={{'--i': 9}}></span>
                 <span style={{'--i': 10}}></span>
               </div>
-            }
+              }
+              <div className="mixer-track-current-background">
+                <div className="mixer-track-current-background-container">
+                  <span style={{'--i': 1}}></span>
+                  <span style={{'--i': 2}}></span>
+                  <span style={{'--i': 3}}></span>
+                  <span style={{'--i': 4}}></span>
+                  <span style={{'--i': 5}}></span>
+                </div>
+              </div>
             </>
             :
             <span className="mixer-track-current-off">Ooops, a device is not currently active.</span>
@@ -162,6 +171,15 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
               <span style={{'--i': 10}}></span>
             </div>
             }
+            <div className="mixer-track-next-background">
+              <div className="mixer-track-next-background-container">
+                <span style={{'--i': 1}}></span>
+                <span style={{'--i': 2}}></span>
+                <span style={{'--i': 3}}></span>
+                <span style={{'--i': 4}}></span>
+                <span style={{'--i': 5}}></span>
+              </div>
+            </div>
           </div>
         </div>
         <div className={`mixer-controls-container`} style={{height: controls == false ? `0% !important` : ` min-content `}} onClick={(e) => lowerControls(e)}>
