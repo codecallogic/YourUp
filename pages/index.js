@@ -1,10 +1,8 @@
 import {useEffect, useState} from 'react'
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import { useRouter } from 'next/router'
 import {API} from '../config'
 import axios from 'axios'
-import spotifyService from './spotifyService'
 import withUser from './withUser'
 axios.defaults.withCredentials = true
 
@@ -17,20 +15,10 @@ if (!firebase.apps.length) {
   firebase.app(); // if already initialized, use that one
 }
 
-const Home = ({newUser, newToken}) => {
-
-  const router = useRouter()
-
-  const [user, setUser] = useState(null)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    newUser !== null ? window.location.href = '/mixer' : null
-  }, [newUser])
-
+const Home = ({}) => {
   const uiConfig = {
     signInFlow: 'popup',
-    // signInSuccessUrl: `${API}/spotify/login`,
+    // signInSuccessUrl: `/mixer`,
     signInOptions: [
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
@@ -47,7 +35,7 @@ const Home = ({newUser, newToken}) => {
   const loginFireBase = async (user) => {
     try {
       const responseLogin = await axios.post(`${API}/auth/login`, user)
-      window.location.href = `${API}/spotify/login`
+      window.location.href = `/mixer`
     } catch (error) {
       console.log(error)
     }
@@ -85,4 +73,4 @@ const Home = ({newUser, newToken}) => {
   )
 }
 
-export default withUser(spotifyService(Home))
+export default Home

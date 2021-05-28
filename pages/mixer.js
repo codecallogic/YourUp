@@ -7,8 +7,6 @@ import firebase from 'firebase'
 import axios from 'axios'
 
 const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
-  
-  const router = useRouter()
 
   const [user, setUser] = useState(null)
   const [dataExists, setDataExists] = useState(false)
@@ -20,13 +18,10 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [shake, setShake] = useState(null)
    
   useEffect( () => {   
+    Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
     // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
   }, [])
-
-  useEffect(() => {
-    newUser && newToken ? null: signOut()
-  }, [newUser])
 
   const signOut = async () => {
     try {
@@ -110,7 +105,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         </div>
         <div className="mixer-track">
           <div className={`mixer-track-current shake` + (ripples ? 'pulse' : null) + (shake ? ' shake' : null)} onDrop={(e) => onDrop(e)} onDragOver={(e)=> onDragOver(e)} onDragEnter={(e) => onDragEnterCurrent(e)}>
-            {spotifyData.currentPlaybackState ? spotifyData.currentPlaybackState.item && spotifyData.currentPlaybackState.is_playing ? <>
+            {Object.keys(spotifyData).length > 0 ? spotifyData.currentPlaybackState.item && spotifyData.currentPlaybackState.is_playing ? <>
               <img src={invalidToken == false ? currentTrack.album.images[0].url : null} alt=""/>
               <span>{invalidToken == false ? currentTrack.artists[0].name : null}</span>
               <span>{invalidToken == false ? currentTrack.name : null}</span>
@@ -138,15 +133,15 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
               </div>
             </>
             :
-            <span className="mixer-track-current-off">Ooops, a device is not currently active. Please play a song in a spotify device.</span>
-            :
             null
+            :
+            <span className="mixer-track-current-off">Ooops, a device is not currently active. Please play a song in a spotify device.</span>
             }
           </div>
           <div className={`mixer-track-next ` + (ripples ? 'transparent' : null)} draggable onDragStart={(e) => onDragStart(e, nextTrack.uri)} onDragEnd={(e) => onDragEnd(e)}>
-            <img src={invalidToken == false ? nextTrack.album.images[0].url : null} alt=""/>
-            <span>{invalidToken == false ? nextTrack.artists[0].name : null}</span>
-            <span>{invalidToken == false ? nextTrack.name : null}</span>
+            <img src={Object.keys(spotifyData).length > 0 ? nextTrack.album.images[0].url : null} alt=""/>
+            <span>{Object.keys(spotifyData).length > 0 ? nextTrack.artists[0].name : null}</span>
+            <span>{Object.keys(spotifyData).length > 0 ? nextTrack.name : null}</span>
             {ripples !== null && <div className="mixer-track-ripples-next">
               <span style={{'--i': 1}}></span>
               <span style={{'--i': 2}}></span>
@@ -201,4 +196,4 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   )
 }
 
-export default withUser(spotifyService(Mixer))
+export default spotifyService(withUser(Mixer))

@@ -1,7 +1,6 @@
 import axios from 'axios'
 import {API} from '../config'
 import {getCookie, getUser} from '../helpers/spotifyService'
-import Cookies from 'cookies'
 axios.defaults.withCredentials = true
 
 const spotifyService = Page => {
@@ -10,18 +9,13 @@ const spotifyService = Page => {
   withSpotifyService.getInitialProps = async (context) => {
     let invalidToken = false
     let newToken = null
-    const cookies = new Cookies(context.req, context.res)
-   
-    if(context.query){context.query.token ? ( console.log(context.query.token), newToken = context.query.token, console.log('CONTEXT')) : (invalidToken = true)}
-
-    if(newToken){
-      cookies.set('spotifyToken', newToken)
-    }
+    let newUser = null
 
     const token = getCookie('spotifyToken', context.req)
 
     if(token){newToken = token.split('=')[1]; invalidToken = false;}
-
+    newUser = getUser('user', context.req) ? JSON.parse(decodeURIComponent(getUser('user', context.req).split('=')[1])) : null
+    console.log(newUser)
 
     let spotifyData = new Object()
     let tracks = ['2SxeNZphx2bH5kju5Ntu8P', '5IlR8G1OEn99cV3WB49O7o', '4DqO37N1eWHWKhvcgCho9F', '7hofL9YADeFqnsFdDrxdbs', '2GQEM9JuHu30sGFvRYeCxz']
@@ -60,11 +54,18 @@ const spotifyService = Page => {
       }
     }
 
-    return {
-      ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
-      newToken,
-      invalidToken,
-      spotifyData
+    if(!newUser){
+      context.res.writeHead(302, {
+        Location: '/'
+      });
+      context.res.end();
+    }else{
+      return {
+        ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
+        newToken,
+        invalidToken,
+        spotifyData
+      }
     }
   }
 

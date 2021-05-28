@@ -345,7 +345,7 @@ body {
         color: white !important;
         text-transform: unset !important;
         font-size: 1.8rem;
-        z-index: 2; }
+        z-index: 5; }
         @media only screen and (max-width: 992px) {
           .mixer-track-current-off {
             margin: 2rem 0 0 0; } }
