@@ -28,7 +28,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [shake, setShake] = useState(null)
    
   useEffect( () => {   
-    newUser == null ? signOut() : null
+    newUser ? signOut() : null
+    console.log(newUser)
     
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)
