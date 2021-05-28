@@ -61,12 +61,12 @@ const spotifyService = Page => {
       }
     }
 
-    if(newUser === null){
-      context.res.writeHead(302, {
-        Location: '/'
-      });
-      context.res.end();
-    }else{
+    // if(newUser === null){
+    //   context.res.writeHead(302, {
+    //     Location: '/'
+    //   });
+    //   context.res.end();
+    // }else{
       return {
         ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
         newToken,
@@ -74,7 +74,7 @@ const spotifyService = Page => {
         spotifyData,
         newUser
       }
-    }
+    // }
   }
 
   return withSpotifyService
