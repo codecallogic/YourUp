@@ -133,7 +133,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
               </div>
             </>
             :
-            null
+            <span className="mixer-track-current-off">Ooops, a device is not currently active. Please play a song in a spotify device.</span>
             :
             <span className="mixer-track-current-off">Ooops, a device is not currently active. Please play a song in a spotify device.</span>
             }
