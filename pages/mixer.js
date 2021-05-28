@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
 import {API} from '../config'
 import spotifyService from './spotifyService'
+import withUser from './withUser'
 import firebase from 'firebase'
 import axios from 'axios'
 
@@ -23,16 +24,16 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
   }, [])
 
-  // useEffect(() => {
-  //   newUser === null ? signOut() : null
-  // }, [newUser])
+  useEffect(() => {
+    newUser && newToken ? null: signOut()
+  }, [newUser])
 
   const signOut = async () => {
     try {
       const responseSignout = await axios.post(`${API}/spotify/remove-cookie`)
       firebase.auth().signOut()
       setUser(null)
-      router.push('/')
+      window.locatioin.href = ('/')
     } catch (error) {
       console.log(error)
     }
@@ -137,7 +138,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
               </div>
             </>
             :
-            <span className="mixer-track-current-off">Ooops, a device is not currently active.</span>
+            <span className="mixer-track-current-off">Ooops, a device is not currently active. Please play a song in a spotify device.</span>
             :
             null
             }
@@ -200,4 +201,4 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   )
 }
 
-export default spotifyService(Mixer)
+export default withUser(spotifyService(Mixer))

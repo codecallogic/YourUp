@@ -135,7 +135,8 @@
       }
 
       &-off {
-        color: $color-scheme-1 !important;
+        color: white !important;
+        text-transform: unset !important;
         font-size: 1.8rem;
         z-index: 2;
 

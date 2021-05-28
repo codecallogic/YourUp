@@ -10,7 +10,6 @@ const spotifyService = Page => {
   withSpotifyService.getInitialProps = async (context) => {
     let invalidToken = false
     let newToken = null
-    let newUser = null
     const cookies = new Cookies(context.req, context.res)
    
     if(context.query){context.query.token ? ( console.log(context.query.token), newToken = context.query.token, console.log('CONTEXT')) : (invalidToken = true)}
@@ -20,9 +19,9 @@ const spotifyService = Page => {
     }
 
     const token = getCookie('spotifyToken', context.req)
-    newUser = getUser('user', context.req) ? JSON.parse(decodeURIComponent(getUser('user', context.req).split('=')[1])) : null
 
     if(token){newToken = token.split('=')[1]; invalidToken = false;}
+
 
     let spotifyData = new Object()
     let tracks = ['2SxeNZphx2bH5kju5Ntu8P', '5IlR8G1OEn99cV3WB49O7o', '4DqO37N1eWHWKhvcgCho9F', '7hofL9YADeFqnsFdDrxdbs', '2GQEM9JuHu30sGFvRYeCxz']
@@ -61,20 +60,12 @@ const spotifyService = Page => {
       }
     }
 
-    // if(newUser === null){
-    //   context.res.writeHead(302, {
-    //     Location: '/'
-    //   });
-    //   context.res.end();
-    // }else{
-      return {
-        ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
-        newToken,
-        invalidToken,
-        spotifyData,
-        newUser
-      }
-    // }
+    return {
+      ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
+      newToken,
+      invalidToken,
+      spotifyData
+    }
   }
 
   return withSpotifyService

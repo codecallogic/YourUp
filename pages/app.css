@@ -342,7 +342,8 @@ body {
         cursor: pointer;
         z-index: 10; }
       .mixer-track-current-off {
-        color: #101013 !important;
+        color: white !important;
+        text-transform: unset !important;
         font-size: 1.8rem;
         z-index: 2; }
         @media only screen and (max-width: 992px) {
