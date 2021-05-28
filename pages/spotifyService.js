@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {API} from '../config'
-import {getCookie} from '../helpers/spotifyService'
+import {getCookie, getUser} from '../helpers/spotifyService'
 import Cookies from 'cookies'
 axios.defaults.withCredentials = true
 
@@ -19,6 +19,8 @@ const spotifyService = Page => {
     }
 
     const token = getCookie('spotifyToken', context.req)
+    const newUser = getUser('user', context.req).split('=')[1] ? JSON.parse(decodeURIComponent(getUser('user', context.req).split('=')[1])) : null
+
     if(token){newToken = token.split('=')[1]; invalidToken = false;}
 
     let spotifyData = new Object()
@@ -62,7 +64,8 @@ const spotifyService = Page => {
       ...(Page.getInitialProps ? await Page.getInitialProps(context) : {}),
       newToken,
       invalidToken,
-      spotifyData
+      spotifyData,
+      newUser
     }
   }
 

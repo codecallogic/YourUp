@@ -14,8 +14,8 @@ if (!firebase.apps.length) {
   firebase.app(); // if already initialized, use that one
 }
 
-const Mixer = ({newToken, invalidToken, spotifyData}) => {
-
+const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
+  
   const router = useRouter()
 
   const [user, setUser] = useState(null)
@@ -27,8 +27,8 @@ const Mixer = ({newToken, invalidToken, spotifyData}) => {
   const [ripples, setRipples]  = useState(null)
   const [shake, setShake] = useState(null)
    
-  useEffect( () => {    
-    invalidToken == true ? signOut(): null
+  useEffect( () => {   
+    newUser == null ? signOut() : null
     
     firebase.auth().onAuthStateChanged( user => {
       setUser(user)

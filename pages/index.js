@@ -3,6 +3,8 @@ import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import { useRouter } from 'next/router'
 import {API} from '../config'
+import axios from 'axios'
+axios.defaults.withCredentials = true
 
 if (!firebase.apps.length) {
   firebase.initializeApp({
@@ -22,14 +24,27 @@ const Home = ({}) => {
 
   const uiConfig = {
     signInFlow: 'popup',
-    signInSuccessUrl: `${API}/spotify/login`,
+    // signInSuccessUrl: `${API}/spotify/login`,
     signInOptions: [
       firebase.auth.FacebookAuthProvider.PROVIDER_ID,
       firebase.auth.GoogleAuthProvider.PROVIDER_ID
     ],
     callbacks: {
-      signInSuccessWithAuthResult: (authResult, redirectUrl) => {return true},
+      signInSuccessWithAuthResult: (authResult, redirectUrl) => {
+        loginFireBase(authResult.user)
+        return false
+      },
       signInFailure: (error) => console.log(error)
+    }
+  }
+
+  const loginFireBase = async (user) => {
+    console.log(user)
+    try {
+      const responseLogin = await axios.post(`${API}/auth/login`, user)
+      window.location.href = `${API}/spotify/login`
+    } catch (error) {
+      console.log(error)
     }
   }
   
