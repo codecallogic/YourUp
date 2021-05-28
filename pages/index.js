@@ -25,8 +25,8 @@ const Home = ({newUser, newToken}) => {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    newUser && newToken ? window.location.href = '/mixer' : null
-  }, [])
+    newUser !== null ? window.location.href = '/mixer' : null
+  }, [newUser])
 
   const uiConfig = {
     signInFlow: 'popup',

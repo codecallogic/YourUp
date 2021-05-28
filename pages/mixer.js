@@ -33,7 +33,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       const responseSignout = await axios.post(`${API}/spotify/remove-cookie`)
       firebase.auth().signOut()
       setUser(null)
-      window.locatioin.href = ('/')
+      window.location.href = ('/')
     } catch (error) {
       console.log(error)
     }
