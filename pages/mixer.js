@@ -33,7 +33,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   }, [])
 
   useEffect(() => {
-    newUser ? null : signOut() 
+    newUser === null ? signOut() : null
   }, [newUser])
 
   const signOut = async () => {
