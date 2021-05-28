@@ -19,7 +19,7 @@ const spotifyService = Page => {
     }
 
     const token = getCookie('spotifyToken', context.req)
-    const newUser = getUser('user', context.req).split('=')[1] ? JSON.parse(decodeURIComponent(getUser('user', context.req).split('=')[1])) : null
+    const newUser = getUser('user', context.req) ? JSON.parse(decodeURIComponent(getUser('user', context.req).split('=')[1])) : null
 
     if(token){newToken = token.split('=')[1]; invalidToken = false;}
 
