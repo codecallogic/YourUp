@@ -5,15 +5,6 @@ import spotifyService from './spotifyService'
 import firebase from 'firebase'
 import axios from 'axios'
 
-if (!firebase.apps.length) {
-  firebase.initializeApp({
-    apiKey: 'AIzaSyD3kgibfD8dkQnX-m5ic3VDThbIYh6tIrY',
-    authDomain: 'yourup-6f5b6.firebaseapp.com'
-  })
-}else {
-  firebase.app(); // if already initialized, use that one
-}
-
 const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   
   const router = useRouter()
@@ -32,9 +23,9 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
   }, [])
 
-  useEffect(() => {
-    newUser === null ? signOut() : null
-  }, [newUser])
+  // useEffect(() => {
+  //   newUser === null ? signOut() : null
+  // }, [newUser])
 
   const signOut = async () => {
     try {
