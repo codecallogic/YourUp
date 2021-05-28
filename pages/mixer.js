@@ -28,7 +28,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [shake, setShake] = useState(null)
    
   useEffect( () => {   
-    newUser ? signOut() : null
+    newUser.displayName ? null : signOut() 
     console.log(newUser)
 
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
