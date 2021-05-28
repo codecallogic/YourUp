@@ -30,11 +30,6 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   useEffect( () => {   
     newUser ? signOut() : null
     console.log(newUser)
-    
-    firebase.auth().onAuthStateChanged( user => {
-      setUser(user)
-      user !== null ? null : (signOut(), router.push('/'))
-    })
 
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
     // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
