@@ -11,6 +11,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [user, setUser] = useState(null)
   const [dataExists, setDataExists] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(spotifyData.currentPlaybackState ? spotifyData.currentPlaybackState.item : null)
+  const [device, setDevice] = useState(spotifyData.currentPlaybackState ? spotifyData.currentPlaybackState.is_playing : null)
   const [nextTrack, setNextTrack] = useState(spotifyData.track ? spotifyData.track.tracks[0] : null)
   const [counter, setCounter] = useState(0)
   const [controls, setControls]  = useState(true)
@@ -42,6 +43,16 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       const responsePlay = await axios.post(`${API}/spotify/play`, {spotifyURI, newToken})
       // const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/increase`, {newToken})
       setCurrentTrack(responsePlay.data.item)
+      return responsePlay.data.item
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const activateDevice = async () => {
+    try {
+      const responseDevice = await axios.put(`${API}/spotify/activate-device`, {device_ids: [spotifyData.availableDevices.devices[0].id], newToken})
+      setDevice(true)
     } catch (error) {
       console.log(error)
     }
@@ -71,7 +82,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     setRipples(null)
   }
 
-  const onDrop = (e) => {
+  const onDrop = async (e) => {
     let uri = e.dataTransfer.getData("uri");
 
     let newCounter = counter + 1
@@ -79,7 +90,9 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     newCounter < spotifyData.track.tracks.length ? setCounter(newCounter) : (setCounter(0), newCounter = 0);
     setRipples(null)
     setShake(true)
-    playSong(uri, newCounter)
+
+    let song = await playSong(uri, newCounter)
+    if(song) activateDevice() 
   }
 
   return (
@@ -105,7 +118,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         </div>
         <div className="mixer-track">
           <div className={`mixer-track-current shake` + (ripples ? 'pulse' : null) + (shake ? ' shake' : null)} onDrop={(e) => onDrop(e)} onDragOver={(e)=> onDragOver(e)} onDragEnter={(e) => onDragEnterCurrent(e)}>
-            {Object.keys(spotifyData).length > 0 ? spotifyData.currentPlaybackState.item && spotifyData.currentPlaybackState.is_playing ? <>
+            {Object.keys(spotifyData).length > 0 ? spotifyData.currentPlaybackState.item && device ? <>
               <img src={invalidToken == false ? currentTrack.album.images[0].url : null} alt=""/>
               <span>{invalidToken == false ? currentTrack.artists[0].name : null}</span>
               <span>{invalidToken == false ? currentTrack.name : null}</span>

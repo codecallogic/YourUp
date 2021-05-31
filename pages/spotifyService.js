@@ -15,7 +15,6 @@ const spotifyService = Page => {
 
     if(token){newToken = token.split('=')[1]; invalidToken = false;}
     newUser = getUser('user', context.req) ? JSON.parse(decodeURIComponent(getUser('user', context.req).split('=')[1])) : null
-    console.log(newUser)
 
     let spotifyData = new Object()
     let tracks = ['2SxeNZphx2bH5kju5Ntu8P', '5IlR8G1OEn99cV3WB49O7o', '4DqO37N1eWHWKhvcgCho9F', '7hofL9YADeFqnsFdDrxdbs', '2GQEM9JuHu30sGFvRYeCxz']
