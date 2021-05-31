@@ -18,7 +18,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [ripples, setRipples]  = useState(null)
   const [shake, setShake] = useState(null)
    
-  useEffect( () => {   
+  useEffect( () => {
+    invalidToken ? window.location.href = `/` : null
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
     // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
@@ -37,22 +38,15 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
 
   const playSong = async (spotifyURI, newCounter) => {
     setNextTrack(spotifyData.track.tracks[newCounter])
-    
+    let activateDevice = spotifyData.availableDevices.devices[0].id
+
     try {
       // const responseLowerVolume = await axios.put(`${API}/spotify/volume/decrease`, {newToken})
-      const responsePlay = await axios.post(`${API}/spotify/play`, {spotifyURI, newToken})
+      const responsePlay = await axios.post(`${API}/spotify/play`, {spotifyURI, newToken, activateDevice})
       // const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/increase`, {newToken})
       setCurrentTrack(responsePlay.data.item)
-      return responsePlay.data.item
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  const activateDevice = async () => {
-    try {
-      const responseDevice = await axios.put(`${API}/spotify/activate-device`, {device_ids: [spotifyData.availableDevices.devices[0].id], newToken})
       setDevice(true)
+      return responsePlay.data.item
     } catch (error) {
       console.log(error)
     }
@@ -92,7 +86,6 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     setShake(true)
 
     let song = await playSong(uri, newCounter)
-    if(song) activateDevice() 
   }
 
   return (
