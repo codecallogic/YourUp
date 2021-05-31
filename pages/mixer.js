@@ -19,6 +19,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [shake, setShake] = useState(null)
    
   useEffect( () => {
+    console.log(spotifyData.currentPlaybackState)
     invalidToken ? window.location.href = `/` : null
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
@@ -46,7 +47,6 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       // const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/increase`, {newToken})
       setCurrentTrack(responsePlay.data.item)
       setDevice(true)
-      return responsePlay.data.item
     } catch (error) {
       console.log(error)
     }
@@ -85,7 +85,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     setRipples(null)
     setShake(true)
 
-    let song = await playSong(uri, newCounter)
+    playSong(uri, newCounter)
   }
 
   return (
@@ -111,32 +111,32 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         </div>
         <div className="mixer-track">
           <div className={`mixer-track-current shake` + (ripples ? 'pulse' : null) + (shake ? ' shake' : null)} onDrop={(e) => onDrop(e)} onDragOver={(e)=> onDragOver(e)} onDragEnter={(e) => onDragEnterCurrent(e)}>
-            {Object.keys(spotifyData).length > 0 ? spotifyData.currentPlaybackState.item && device ? <>
-              <img src={invalidToken == false ? currentTrack.album.images[0].url : null} alt=""/>
-              <span>{invalidToken == false ? currentTrack.artists[0].name : null}</span>
-              <span>{invalidToken == false ? currentTrack.name : null}</span>
-              {ripples == null && <div className="mixer-track-ripples-current">
-                <span style={{'--i': 1}}></span>
-                <span style={{'--i': 2}}></span>
-                <span style={{'--i': 3}}></span>
-                <span style={{'--i': 4}}></span>
-                <span style={{'--i': 5}}></span>
-                <span style={{'--i': 6}}></span>
-                <span style={{'--i': 7}}></span>
-                <span style={{'--i': 8}}></span>
-                <span style={{'--i': 9}}></span>
-                <span style={{'--i': 10}}></span>
-              </div>
-              }
-              <div className="mixer-track-current-background">
-                <div className="mixer-track-current-background-container">
+            {Object.keys(spotifyData).length > 0 ? currentTrack && device ? <>
+                <img src={invalidToken == false ? currentTrack.album.images[0].url : null} alt=""/>
+                <span>{invalidToken == false ? currentTrack.artists[0].name : null}</span>
+                <span>{invalidToken == false ? currentTrack.name : null}</span>
+                {ripples == null && <div className="mixer-track-ripples-current">
                   <span style={{'--i': 1}}></span>
                   <span style={{'--i': 2}}></span>
                   <span style={{'--i': 3}}></span>
                   <span style={{'--i': 4}}></span>
                   <span style={{'--i': 5}}></span>
+                  <span style={{'--i': 6}}></span>
+                  <span style={{'--i': 7}}></span>
+                  <span style={{'--i': 8}}></span>
+                  <span style={{'--i': 9}}></span>
+                  <span style={{'--i': 10}}></span>
                 </div>
-              </div>
+                }
+                <div className="mixer-track-current-background">
+                  <div className="mixer-track-current-background-container">
+                    <span style={{'--i': 1}}></span>
+                    <span style={{'--i': 2}}></span>
+                    <span style={{'--i': 3}}></span>
+                    <span style={{'--i': 4}}></span>
+                    <span style={{'--i': 5}}></span>
+                  </div>
+                </div>
             </>
             :
             <span className="mixer-track-current-off">Ooops, a device is not currently active. Please play a song in a spotify device.</span>
