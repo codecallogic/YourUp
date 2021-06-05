@@ -46,6 +46,8 @@ html {
   font-size: 62.5%;
   scroll-behavior: smooth;
   padding: env(safe-area-inset);
+  background-color: $color-scheme-1;
+  color: white;
 }
 
 html,

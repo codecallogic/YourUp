@@ -39,7 +39,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
 
   const playSong = async (spotifyURI, newCounter) => {
     setNextTrack(spotifyData.track.tracks[newCounter])
-    let activateDevice = spotifyData.availableDevices.devices[0].id
+    let activateDevice = localStorage.getItem('device')
 
     try {
       // const responseLowerVolume = await axios.put(`${API}/spotify/volume/decrease`, {newToken})

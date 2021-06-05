@@ -7,6 +7,23 @@
   transform: translate3d(0, 0, 0);
 }
 
+.loading {
+  width: 100px;
+  height: 100px;
+  background-color: $color-scheme-2;
+  border-radius: 1.2rem;
+  animation: loading 2s linear infinite;
+
+  &-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    perspective: 200px;
+  }
+}
+
 @keyframes flash {
   0% {
     width: 0%;
@@ -103,5 +120,19 @@
   40%,
   60% {
     transform: translate3d(4px, 0.5rem, 0);
+  }
+}
+
+@keyframes loading {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+
+  50% {
+    transform: rotateX(0deg) rotateY(180deg);
+  }
+
+  100% {
+    transform: rotateX(180deg) rotateY(180deg);
   }
 }

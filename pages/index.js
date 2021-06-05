@@ -35,7 +35,7 @@ const Home = ({}) => {
   const loginFireBase = async (user) => {
     try {
       const responseLogin = await axios.post(`${API}/auth/login`, user)
-      window.location.href = `/mixer`
+      window.location.href = `/device`
     } catch (error) {
       console.log(error)
     }

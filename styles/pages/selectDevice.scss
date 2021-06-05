@@ -1,0 +1,158 @@
+.selectDevice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  padding: 0 5rem;
+
+  @media only screen and (max-width: $large) {
+    padding: 0 5rem;
+  }
+
+  &-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    // background-image: linear-gradient(180deg, $color-scheme-2, $color-scheme-1);
+    // box-shadow: 1rem 1rem 3rem 1rem rgba($color-scheme-5, 0.3);
+    width: 50rem;
+    box-sizing: border-box;
+    padding: 5rem;
+    border-radius: 3rem;
+    margin: 0;
+
+    @media only screen and (max-width: $large) {
+      padding: 0 5rem;
+      width: 100%;
+    }
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 6rem;
+    margin: 2rem 0;
+    font-size: 1.6rem;
+    position: relative;
+    border-radius: 3rem;
+    transition: all 0.5s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+    &:hover {
+      cursor: pointer;
+      transform: translateY(-0.5rem);
+    }
+
+    svg {
+      width: 5rem;
+      height: 5rem;
+      fill: $color-scheme-2;
+    }
+
+    span {
+      text-transform: uppercase;
+      padding: 2rem 1rem;
+      background-color: $dark-contrast;
+      color: $color-scheme-1;
+      width: 110%;
+      text-align: center;
+      margin-left: 2rem;
+      border-radius: 3rem;
+    }
+
+    @media only screen and (max-width: $large) {
+      width: 100%;
+    }
+  }
+}
+
+.instructions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+
+  &-button {
+    padding: 1rem 3rem;
+    border-radius: 1.2rem;
+    outline: none;
+    border: none;
+    font-size: 1.8rem;
+    background-color: $color-scheme-2;
+    color: white;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  &-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 2rem 0;
+
+    &-title {
+      text-align: center;
+      font-size: 3.2rem;
+      text-transform: uppercase;
+      color: $color-scheme-2;
+      font-weight: 700;
+      padding: 2rem 0;
+    }
+
+    &-item {
+      display: flex;
+      align-items: center;
+      margin: 1rem 0;
+
+      &-single {
+        width: 3rem;
+        height: 3rem;
+        fill: $color-scheme-2;
+      }
+
+      &-double {
+        svg {
+          width: 1rem;
+          height: 3rem;
+          fill: $color-scheme-2;
+        }
+      }
+
+      &-rewind {
+        width: 3rem;
+        height: 3rem;
+        fill: $color-scheme-2;
+      }
+
+      &-next {
+        width: 3rem;
+        height: 3rem;
+        fill: $color-scheme-2;
+      }
+
+      &-current {
+        width: 3rem;
+        height: 3rem;
+        fill: red;
+      }
+
+      &-samples {
+        width: 3rem;
+        height: 3rem;
+        fill: $color-scheme-4;
+      }
+
+      span {
+        margin-left: 1rem;
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
