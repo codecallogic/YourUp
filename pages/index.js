@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-import {API} from '../config'
+import {API, DOMAIN} from '../config'
 import axios from 'axios'
 import withUser from './withUser'
 axios.defaults.withCredentials = true
@@ -9,7 +9,8 @@ axios.defaults.withCredentials = true
 if (!firebase.apps.length) {
   firebase.initializeApp({
     apiKey: 'AIzaSyD3kgibfD8dkQnX-m5ic3VDThbIYh6tIrY',
-    authDomain: 'yourup-6f5b6.firebaseapp.com'
+    authDomain: 'yourup-6f5b6.firebaseapp.com',
+    // authDomain: `auth.${DOMAIN}`,
   })
 }else {
   firebase.app(); // if already initialized, use that one

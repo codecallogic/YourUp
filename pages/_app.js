@@ -2,6 +2,7 @@ import './app.css'
 import Head from 'next/head'
 
 function MyApp({ Component, pageProps }) {
+  
   return <>
     <Head>
       <>
@@ -14,7 +15,7 @@ function MyApp({ Component, pageProps }) {
       <script type="text/javascript" src="DragDropTouch.js"></script>
       </>
     </Head>
-    <Component {...pageProps} />
+    <Component {...pageProps}/>
   </>
 }
 

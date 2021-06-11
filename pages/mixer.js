@@ -8,6 +8,8 @@ import axios from 'axios'
 
 const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
 
+  // console.log(newUser)
+
   const [user, setUser] = useState(null)
   const [dataExists, setDataExists] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(spotifyData.currentPlaybackState ? spotifyData.currentPlaybackState.item : null)
@@ -17,9 +19,10 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [controls, setControls]  = useState(true)
   const [ripples, setRipples]  = useState(null)
   const [shake, setShake] = useState(null)
+  const [room, setRoom] = useState(null)
    
   useEffect( () => {
-    console.log(spotifyData.currentPlaybackState)
+    // console.log(spotifyData.currentPlaybackState)
     invalidToken ? window.location.href = `/` : null
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
@@ -93,13 +96,13 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       <div className="mixer">
         <div className="mixer-dj">
           <div className="mixer-dj-inTheMix">
-            <img src="https://images.unsplash.com/photo-1553830591-d8632a99e6ff?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2111&q=80" alt="In The Mix"/>
+            <img src={newUser ? newUser.photoURL : null} alt="In The Mix"/>
             <div>
               <span>In the Mix</span>
               <span>Now playing</span>
             </div>
           </div>
-          <div className="mixer-dj-upNext">
+          {room && <div className="mixer-dj-upNext">
             <span>Up next</span>
             <div className="mixer-dj-upNext-photos">
               <img src="https://images.unsplash.com/photo-1610737245930-e4f41bab0b6b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80" alt=""/>
@@ -108,6 +111,10 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
               <img src="https://images.unsplash.com/photo-1582793770580-4cde3de01a62?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2972&q=80" alt=""/>
             </div>
           </div>
+          }
+          {!room &&   
+            <div className="mixer-dj-button" onClick={() => window.location.href = '/room'}>Create Room</div>
+          }
         </div>
         <div className="mixer-track">
           <div className={`mixer-track-current shake` + (ripples ? 'pulse' : null) + (shake ? ' shake' : null)} onDrop={(e) => onDrop(e)} onDragOver={(e)=> onDragOver(e)} onDragEnter={(e) => onDragEnterCurrent(e)}>

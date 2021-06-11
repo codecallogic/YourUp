@@ -94,8 +94,9 @@
   &-container {
     display: flex;
     justify-content: center;
+    // align-items: flex-end;
     flex-direction: column;
-    padding: 2rem 0;
+    padding: 2rem 0rem;
 
     &-title {
       text-align: center;
@@ -110,6 +111,7 @@
       display: flex;
       align-items: center;
       margin: 1rem 0;
+      margin-left: 5rem;
 
       &-single {
         width: 3rem;

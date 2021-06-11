@@ -3,7 +3,7 @@ import spotifyService from './spotifyService'
 import {useEffect, useState} from 'react'
 import {API} from '../config'
 
-const SelectDevice = ({newToken, invalidToken, spotifyData}) => {
+const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
 
   const [component, setComponent] = useState(null)
 
