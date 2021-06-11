@@ -8,7 +8,7 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [component, setComponent] = useState(null)
 
   useEffect(() => {
-    // invalidToken ? window.location.href = `/` : null
+    invalidToken ? window.location.href = `/` : null
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
   }, [])
   

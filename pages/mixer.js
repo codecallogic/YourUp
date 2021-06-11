@@ -21,9 +21,10 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [shake, setShake] = useState(null)
   const [room, setRoom] = useState(null)
    
-  useEffect( () => {
+  useEffect( async () => {
     // console.log(spotifyData.currentPlaybackState)
     invalidToken ? window.location.href = `/` : null
+
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
     // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null

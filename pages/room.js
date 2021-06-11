@@ -32,6 +32,7 @@ const Room = ({newUser}) => {
   return (
     <div className="room-container">
       <div className="room">
+        <a href="/mixer">Leave</a>
         <div className="room-title">Name your room</div>
         <form className="form">
           <div className="form-group-single">
