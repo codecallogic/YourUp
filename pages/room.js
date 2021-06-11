@@ -12,6 +12,8 @@ const Room = ({newUser}) => {
   const [onlineUsers, setOnlineUsers] = useState(null)
 
   useEffect(() => {
+    socket.emit('online', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email})
+    
     socket.on('online', (users) => {
       setOnlineUsers(users)
     })
@@ -25,7 +27,6 @@ const Room = ({newUser}) => {
 
   const showAllOnlineUsers = () => {
     setInviteModal(!inviteModal)
-    socket.emit('online', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email})
   }
   
   return (
