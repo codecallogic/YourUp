@@ -38,6 +38,7 @@ const Home = ({}) => {
       const responseLogin = await axios.post(`${API}/auth/login`, user)
       window.location.href = `/device`
     } catch (error) {
+      console.log('HELLO')
       console.log(error)
     }
   }
