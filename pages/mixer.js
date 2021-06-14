@@ -1,10 +1,13 @@
 import {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
-import {API} from '../config'
+import {API, SOCKET} from '../config'
 import spotifyService from './spotifyService'
 import withUser from './withUser'
 import firebase from 'firebase'
 import axios from 'axios'
+import io from "socket.io-client";
+
+const socket = io.connect(SOCKET, {transports: ['websocket', 'polling', 'flashsocket']});
 
 const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
 
@@ -19,16 +22,59 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [controls, setControls]  = useState(true)
   const [ripples, setRipples]  = useState(null)
   const [shake, setShake] = useState(null)
-  const [room, setRoom] = useState(null)
+  const [room, setRoom] = useState('')
+  const [message, setMessage] = useState(false)
+  const [roomNameModal, setRoomNameModal] = useState(false)
+  const [error, setError] = useState('')
+  const [group, setGroup] = useState([])
+  const [activeRoom, setActiveRoom] = useState(null)
    
-  useEffect( async () => {
-    // console.log(spotifyData.currentPlaybackState)
+  useEffect( () => {
+
     invalidToken ? window.location.href = `/` : null
 
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
-    // Object.keys(spotifyData).length > 0 ? setCurrentDevice(spotifyData.currentPlaybackState.device.id) : null
-  }, [])
+
+    socket.on('join-room', (room) => {
+      console.log(room)
+      setActiveRoom(room)
+    })
+
+    socket.emit('online-mixer', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email}, (users) => {
+      let isInArray = []
+      console.log(users)
+      if(JSON.parse(window.localStorage.getItem('group'))){
+        JSON.parse(window.localStorage.getItem('group')).find((item) => {
+          users.forEach( (el) => {
+            if(el.email == item.email) isInArray.push(el)
+          })
+        })
+        
+        isInArray.forEach((item) => {
+          item.room = JSON.parse(window.localStorage.getItem('room'))
+          socket.emit('send-room', {id: item.id, room: item.room})
+        })
+      }
+      
+      setActiveRoom(JSON.parse(window.localStorage.getItem('room')))
+      setGroup([...isInArray])
+    })
+
+    // socket.on('online-mixer', (users) => {
+    //   console.log(users)
+    // })
+
+    socket.on('play', (play) => {
+      console.log(play)
+    })
+
+    return () => {
+      socket.emit("disconnect");
+      socket.off();
+    }
+    
+  }, [SOCKET])
 
   const signOut = async () => {
     try {
@@ -191,7 +237,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
 
           }
           <div className={`mixer-controls` + (controls == false ? ` none hide` : ` show`)}>
-            <svg className="mixer-controls-single"><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+            <svg className="mixer-controls-single" onClick={() => socket.emit('send-song', {room: activeRoom})}><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
             <div className="mixer-controls-double">
               <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
               <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
@@ -206,6 +252,19 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
           </div>
         </div>
       </div>
+      {roomNameModal && <div className="roomNameModal">
+          <div className="roomNameModal-box">
+            <div className="roomNameModal-box-header">
+              <span>Room</span>
+              <div onClick={() => setRoomNameModal(false)}><svg><use xlinkHref="sprite.svg#icon-close"></use></svg></div>
+            </div>
+            {message && <div className="roomNameModal-box-message">{message}. Please enter a new room name.</div>}
+            <div className="roomNameModal-box-input"><input type="text" placeholder="Room name" name="room" value={room} onChange={(e) => setRoom(e.target.value)}/></div>
+            <button className="roomNameModal-box-button" onClick={() => (setRoomNameModal(false), setUpRoom(room))}>Start Room Session</button>
+            {error ? <div className="roomNameModal-box-error">{error}</div> : <div className="roomNameModal-box-error">{error}</div>}
+          </div>
+      </div>
+      }
     </div>
   )
 }

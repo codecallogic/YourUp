@@ -32,17 +32,23 @@
       display: flex;
       align-items: center;
 
-      img {
-        box-sizing: content-box;
-        object-fit: cover;
-        image-rendering: pixelated;
-        image-resolution: from-image 300dpi;
-        height: 3.5rem;
-        width: 3.5rem;
-        border-radius: 50%;
+      &-picked {
+        margin-right: 1rem;
+        display: flex;
+        align-items: center;
 
-        &:not(:last-child) {
-          margin-right: 1rem;
+        img {
+          box-sizing: content-box;
+          object-fit: cover;
+          image-rendering: pixelated;
+          image-resolution: from-image 300dpi;
+          height: 3.5rem;
+          width: 3.5rem;
+          border-radius: 50%;
+
+          &:not(:last-child) {
+            margin-right: 1rem;
+          }
         }
       }
 
@@ -65,19 +71,41 @@
         left: 110%;
         bottom: -30rem;
         width: 25rem;
-        height: 60rem;
+        height: 62rem;
         background-color: $color-shade-gray;
         padding: 1rem 1rem 0 1rem;
         border-radius: 1.2rem;
         box-shadow: 1rem 0rem 3rem 0.2rem rgba($color-shade-dark-gray, 0.7);
+
+        @media only screen and (max-width: $medium-small) {
+          width: 20rem;
+        }
+
+        @media only screen and (max-width: $super-small) {
+          width: 15rem;
+        }
       }
 
       &-online {
         display: flex;
         align-items: center;
         padding: 1rem;
-        // background-color: $color-scheme-4;
         margin-bottom: 0.5rem;
+
+        * {
+          pointer-events: none;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+
+        &-zero {
+          text-align: center;
+          color: white;
+          font-size: 1.4rem;
+          margin: 1rem;
+        }
 
         img {
           box-sizing: content-box;
@@ -87,6 +115,7 @@
           height: 3.5rem;
           width: 3.5rem;
           border-radius: 50%;
+          margin-right: 0.5rem;
         }
 
         span {
@@ -94,13 +123,10 @@
           text-transform: capitalize;
         }
 
-        &:hover {
-          cursor: pointer;
-        }
-
         &-container {
           height: 80%;
           overflow-y: scroll;
+          overflow-x: hidden;
 
           &::-webkit-scrollbar {
             width: 0.3rem;
@@ -154,11 +180,30 @@
 
             svg {
               fill: $color-scheme-1;
+
+              @media only screen and (max-width: $super-small) {
+                width: 1.5rem;
+                height: 1.5rem;
+              }
             }
 
             &:hover {
               cursor: pointer;
             }
+          }
+
+          &-message {
+            color: white;
+            font-size: 1.4rem;
+            height: 3rem;
+            margin: 0.5rem 0;
+          }
+
+          &-error {
+            color: red;
+            font-size: 1.4rem;
+            height: 3rem;
+            margin: 0.5rem 0;
           }
         }
 
@@ -167,6 +212,71 @@
           margin: 0 -1rem;
         }
       }
+    }
+
+    &-invitation {
+      &-container {
+        position: absolute;
+        left: 115%;
+        bottom: -10rem;
+        width: 25rem;
+        height: 20rem;
+        background-color: $color-shade-gray;
+        padding: 1rem 1rem 0 1rem;
+        border-radius: 1.2rem;
+        box-shadow: 1rem 0rem 3rem 0.2rem rgba($color-shade-dark-gray, 0.7);
+
+        @media only screen and (max-width: $medium-small) {
+          width: 20rem;
+        }
+
+        @media only screen and (max-width: $super-small) {
+          width: 15rem;
+        }
+      }
+
+      &-message {
+        font-size: 1.8rem;
+      }
+
+      &-buttons {
+        display: flex;
+
+        button {
+          width: 100%;
+          font-size: 1.6rem;
+          padding: 1rem 1rem;
+          margin: 2rem 0.5rem 0 0;
+          align-self: baseline;
+          border: 0;
+          outline: 0;
+
+          &:first-child {
+            background-color: $color-scheme-4;
+            color: white;
+          }
+
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+
+  &-button {
+    margin: 5rem 0;
+    background-color: $color-scheme-2;
+    outline: none;
+    border: none;
+    padding: 1.5rem 4rem;
+    font-size: 2.2rem;
+    color: $dark-contrast;
+    text-transform: uppercase;
+    border-radius: 1.2rem;
+
+    &:hover {
+      cursor: pointer;
     }
   }
 }

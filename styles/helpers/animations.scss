@@ -24,6 +24,11 @@
   }
 }
 
+.pending {
+  background-color: $color-scheme-4;
+  animation: pending 1s linear infinite;
+}
+
 @keyframes flash {
   0% {
     width: 0%;
@@ -134,5 +139,15 @@
 
   100% {
     transform: rotateX(180deg) rotateY(180deg);
+  }
+}
+
+@keyframes pending {
+  0% {
+    transform: scale(1);
+  }
+
+  100% {
+    transform: scale(1.05);
   }
 }

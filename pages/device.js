@@ -8,6 +8,8 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [component, setComponent] = useState(null)
 
   useEffect(() => {
+    window.localStorage.removeItem('room')
+    window.localStorage.removeItem('group')
     invalidToken ? window.location.href = `/` : null
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
   }, [])
@@ -20,7 +22,7 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
         {component == null && 
         <div className="selectDevice-container">
         {spotifyData.availableDevices ? spotifyData.availableDevices.devices.map( (item, idx) => 
-          <div key={idx} className="selectDevice-item" onClick={() => (localStorage.setItem('device', item.id), setComponent('instructions'))}><svg><use xlinkHref="sprite.svg?#icon-important_devices"></use></svg><span>{item.name}, {item.type}</span></div>
+          <div key={idx} className="selectDevice-item" onClick={() => (localStorage.setItem('device', item.id), setComponent('instructions'))}><svg><use xlinkHref="sprite.svg?#icon-important_devices"></use></svg><span>{item.name.substring(0, 15)}, {item.type}</span></div>
         )
         :
         null
