@@ -66,7 +66,7 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
         }
       </div>
       :
-      null 
+      <div className="selectDevice-message">Spotify devices not found</div>
     }
     </>
   )

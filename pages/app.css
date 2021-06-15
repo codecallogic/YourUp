@@ -789,6 +789,10 @@ body {
     @media only screen and (max-width: 992px) {
       .selectDevice-item {
         width: 100%; } }
+  .selectDevice-message {
+    color: white;
+    text-align: center;
+    font-size: 2.2rem; }
 
 .instructions {
   display: flex;
