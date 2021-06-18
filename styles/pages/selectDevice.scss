@@ -68,6 +68,20 @@
     }
   }
 
+  &-none {
+    span {
+      display: block;
+      font-size: 2.5rem;
+      margin: 2rem 0;
+    }
+
+    ol {
+      li {
+        font-size: 1.8rem;
+      }
+    }
+  }
+
   &-message {
     color: white;
     text-align: center;

@@ -8,6 +8,7 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [component, setComponent] = useState(null)
 
   useEffect(() => {
+    console.log(spotifyData)
     window.localStorage.removeItem('room')
     window.localStorage.removeItem('group')
     invalidToken ? window.location.href = `/` : null
@@ -21,11 +22,18 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
       <div className="selectDevice">
         {component == null && 
         <div className="selectDevice-container">
-        {spotifyData.availableDevices ? spotifyData.availableDevices.devices.map( (item, idx) => 
+        {spotifyData.availableDevices.devices.length !== 0 ? spotifyData.availableDevices.devices.map( (item, idx) => 
           <div key={idx} className="selectDevice-item" onClick={() => (localStorage.setItem('device', item.id), setComponent('instructions'))}><svg><use xlinkHref="sprite.svg?#icon-important_devices"></use></svg><span>{item.name.substring(0, 15)}, {item.type}</span></div>
         )
         :
-        null
+        <span className="selectDevice-none">
+          <span>No active devices have been found</span>
+          <ol>
+            <li>Please open the Spotify app on one of your devices.</li>
+            <li>Play a track so you can switch between apps and have Spotify active in the background.</li>
+            <li>Refresh page to view available devices.</li>
+          </ol>
+        </span>
         }
         </div>
         }
@@ -66,7 +74,7 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
         }
       </div>
       :
-      <div className="selectDevice-message">Spotify devices not found</div>
+      <div className="selectDevice-message">Error getting spotify data, please try again later.</div>
     }
     </>
   )
