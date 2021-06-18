@@ -17,15 +17,22 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [dataExists, setDataExists] = useState(false)
   const [currentTrack, setCurrentTrack] = useState(spotifyData.currentPlaybackState ? spotifyData.currentPlaybackState.item : null)
   const [device, setDevice] = useState(spotifyData.currentPlaybackState ? spotifyData.currentPlaybackState.is_playing : null)
+
+  // TRACK SETTINGS
   const [nextTrack, setNextTrack] = useState(spotifyData.track ? spotifyData.track.tracks[0] : null)
   const [counter, setCounter] = useState(0)
   const [controls, setControls]  = useState(true)
   const [ripples, setRipples]  = useState(null)
   const [shake, setShake] = useState(null)
+
+  // ROOM DATA
   const [room, setRoom] = useState('')
   const [message, setMessage] = useState(false)
   const [roomNameModal, setRoomNameModal] = useState(false)
   const [error, setError] = useState('')
+
+
+  // SOCKET DATA
   const [group, setGroup] = useState([newUser])
   const [activeRoom, setActiveRoom] = useState(null)
    
@@ -97,6 +104,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
 
     socket.on('play-song', (play) => {
       console.log(play)
+      playSong(play.uri, play.newCounter)
     })
 
     return () => {
@@ -164,11 +172,50 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     newCounter < spotifyData.track.tracks.length ? setCounter(newCounter) : (setCounter(0), newCounter = 0);
     setRipples(null)
     setShake(true)
-    console.log(group)
+
     let userInGroup = group[0]
     
     socket.emit('send-song', {userInGroup, uri, newCounter})
-    // playSong(uri, newCounter)
+    playSong(uri, newCounter)
+  }
+
+  const fromStart = (uri) => {
+    let newCounter = counter + 1
+
+    newCounter < spotifyData.track.tracks.length ? setCounter(newCounter) : (setCounter(0), newCounter = 0);
+
+    let userInGroup = group[0]
+    
+    socket.emit('send-song', {userInGroup, uri, newCounter})
+    playSong(uri, newCounter)
+  }
+
+  const fromDrop = async (uri) => {
+    try {
+      const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/decrease`, {newToken})
+
+      let timesRunFirstInterval = 0;
+      let firstRun = setInterval( async () => {
+
+        const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/increase`, {newToken})
+
+        let newCounter = counter + 1
+        newCounter < spotifyData.track.tracks.length ? setCounter(newCounter) : (setCounter(0), newCounter = 0);
+
+        let userInGroup = group[0]
+        socket.emit('send-song', {userInGroup, uri, newCounter})
+
+        playSong(uri, newCounter)
+        timesRunFirstInterval += 1;
+        if(timesRunFirstInterval === 1){
+          clearInterval(firstRun);
+        }
+  
+        // console.log(responseIncreaseVolume)
+      }, 1000)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -269,8 +316,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
 
           }
           <div className={`mixer-controls` + (controls == false ? ` none hide` : ` show`)}>
-            <svg className="mixer-controls-single" onClick={() => socket.emit('send-song', {room: activeRoom})}><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
-            <div className="mixer-controls-double">
+            <svg className="mixer-controls-single" onClick={() => fromStart(nextTrack.uri)}><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
+            <div className="mixer-controls-double" onClick={() => fromDrop(nextTrack.uri)}>
               <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
               <svg><use xlinkHref="sprite.svg?#icon-long-arrow-up"></use></svg>
             </div>
