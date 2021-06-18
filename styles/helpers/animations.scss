@@ -151,3 +151,21 @@
     transform: scale(1.05);
   }
 }
+
+@keyframes playControl {
+  0% {
+    fill: $color-shade-subtle-gray;
+  }
+
+  25% {
+    fill: $color-soft-blue;
+  }
+
+  50% {
+    fill: $color-soft-blue;
+  }
+
+  100% {
+    fill: $color-soft-blue;
+  }
+}

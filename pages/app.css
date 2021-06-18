@@ -664,10 +664,15 @@ body {
       width: 5rem;
       fill: #222222;
       transition: all 0.5s ease-in-out; }
-      .mixer-controls-single:hover {
+      @media (hover: hover) {
+        .mixer-controls-single:hover {
+          cursor: pointer;
+          transform: scaleX(1.1);
+          fill: #14a3ff; } }
+      .mixer-controls-single:active {
         cursor: pointer;
         transform: scaleX(1.1);
-        fill: #14a3ff; }
+        animation: playControl 1s linear; }
     .mixer-controls-double {
       display: flex;
       transition: all 1s ease-in-out; }
@@ -676,9 +681,14 @@ body {
         width: 5rem;
         fill: #222222;
         transition: all 0.5s ease-in-out; }
-      .mixer-controls-double:hover > svg {
+      @media (hover: hover) {
+        .mixer-controls-double:hover > svg {
+          cursor: pointer;
+          fill: #14a3ff; } }
+      .mixer-controls-double:active {
         cursor: pointer;
-        fill: #14a3ff; }
+        transform: scaleX(1.1);
+        animation: playControl 1s linear; }
     .mixer-controls-replay {
       height: 10rem;
       width: 10rem;
@@ -1158,6 +1168,16 @@ body {
     transform: scale(1); }
   100% {
     transform: scale(1.05); } }
+
+@keyframes playControl {
+  0% {
+    fill: #222222; }
+  25% {
+    fill: #14a3ff; }
+  50% {
+    fill: #14a3ff; }
+  100% {
+    fill: #14a3ff; } }
 
 .form {
   width: 100%;

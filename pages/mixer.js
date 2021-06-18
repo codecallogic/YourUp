@@ -103,7 +103,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     })
 
     socket.on('play-song', (play) => {
-      console.log(play)
+      // console.log(play)
       playSong(play.uri, play.newCounter)
     })
 
