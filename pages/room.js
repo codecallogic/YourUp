@@ -42,6 +42,7 @@ const Room = ({newUser}) => {
 
     socket.on('addToGroup', (user) => {
       setGroup(prevState => [...prevState, user])
+      setInviteModal(false)
     })
     
     socket.on('pending', (data) => {
@@ -63,13 +64,14 @@ const Room = ({newUser}) => {
   }
 
   const sendInvite = async () => {
-    let message = `${newUser.displayName} has invited you to join in on a DJ mixer live room. You can join by visiting ${DOMAIN} and tapping on create a room, someone will add you or you can create a room with others online.`
+    let message = `${newUser.displayName} has invited you to join in on a DJ mixer live room. You can join by visiting ${DOMAIN} and tapping on create a room, someone will add you to a group or you can create a room with others online.`
 
     try {
       const responseInvite  = await axios.post(`${API}/message/invite`, {toUser: `+${number}`, message})
-      console.log(responseInvite)
+      setMessage(responseInvite.data.data ? responseInvite.data.data.to[0] ? `Message was sent to ${responseInvite.data.data.to[0].phone_number}` : 'Message was sent' : 'Message was sent.')
+      setNumber('')
     } catch (error) {
-      console.log(error)
+      if(error) setMessage(error.response ? error.response.data : 'Invalid number, please try again.'); setNumber('')
     }
   }
 
