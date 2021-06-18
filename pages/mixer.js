@@ -26,24 +26,25 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [message, setMessage] = useState(false)
   const [roomNameModal, setRoomNameModal] = useState(false)
   const [error, setError] = useState('')
-  const [group, setGroup] = useState([])
+  const [group, setGroup] = useState([newUser])
   const [activeRoom, setActiveRoom] = useState(null)
    
   useEffect( () => {
-
+    console.log(group)
+    group.length == 0 ? setActiveRoom(null) : null
     invalidToken ? window.location.href = `/` : null
 
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
 
-    socket.on('join-room', (room) => {
-      console.log(room)
-      setActiveRoom(room)
+    socket.on('join-room', (data) => {
+      setGroup(data.group)
+      setActiveRoom(data.room)
     })
 
     socket.emit('online-mixer', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email}, (users) => {
       let isInArray = []
-      console.log(users)
+      // console.log(users)
       if(JSON.parse(window.localStorage.getItem('group'))){
         JSON.parse(window.localStorage.getItem('group')).find((item) => {
           users.forEach( (el) => {
@@ -53,7 +54,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         
         isInArray.forEach((item) => {
           item.room = JSON.parse(window.localStorage.getItem('room'))
-          socket.emit('send-room', {id: item.id, room: item.room})
+          socket.emit('send-room', {id: item.id, room: item.room, group: isInArray})
         })
       }
       
@@ -61,9 +62,24 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       setGroup([...isInArray])
     })
 
-    // socket.on('online-mixer', (users) => {
-    //   console.log(users)
-    // })
+    socket.on('online-mixer', (users) => {
+      let isInArray = []
+      if(JSON.parse(window.localStorage.getItem('group'))){
+        JSON.parse(window.localStorage.getItem('group')).find((item) => {
+          users.forEach( (el) => {
+            if(el.email == item.email) isInArray.push(el)
+          })
+        })
+        
+        isInArray.forEach((item) => {
+          item.room = JSON.parse(window.localStorage.getItem('room'))
+          socket.emit('send-room', {id: item.id, room: item.room, group: isInArray})
+        })
+      }
+      
+      setActiveRoom(JSON.parse(window.localStorage.getItem('room')))
+      setGroup([...isInArray])
+    })
 
     socket.on('play', (play) => {
       console.log(play)
@@ -135,6 +151,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     setRipples(null)
     setShake(true)
 
+    socket.emit('send-song', group[0])
     playSong(uri, newCounter)
   }
 
@@ -143,23 +160,22 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       <div className="mixer">
         <div className="mixer-dj">
           <div className="mixer-dj-inTheMix">
-            <img src={newUser ? newUser.photoURL : null} alt="In The Mix"/>
+            <img src={group.length > 0 ? group[0].photoURL : newUser.photoURL} alt="In The Mix"/>
             <div>
               <span>In the Mix</span>
-              <span>Now playing</span>
+              <span>Now playing {activeRoom ? `in room ${activeRoom}` : null}</span>
             </div>
           </div>
-          {room && <div className="mixer-dj-upNext">
+          {activeRoom && <div className="mixer-dj-upNext">
             <span>Up next</span>
             <div className="mixer-dj-upNext-photos">
-              <img src="https://images.unsplash.com/photo-1610737245930-e4f41bab0b6b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80" alt=""/>
-              <img src="https://images.unsplash.com/photo-1613672710117-0910509f9e43?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80" alt=""/>
-              <img src="https://images.unsplash.com/photo-1528049711433-f04378a08933?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80" alt=""/>
-              <img src="https://images.unsplash.com/photo-1582793770580-4cde3de01a62?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2972&q=80" alt=""/>
+              {group && group.map((person, idx) => 
+                <img key={idx} src={person.photoURL} alt=""/>
+              )}
             </div>
           </div>
           }
-          {!room &&   
+          {!activeRoom &&   
             <div className="mixer-dj-button" onClick={() => window.location.href = '/room'}>Create Room</div>
           }
         </div>

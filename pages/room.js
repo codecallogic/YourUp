@@ -24,7 +24,7 @@ const Room = ({newUser}) => {
   useEffect(() => {
     socket.emit('online', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email}, (id) => {
       newUser.id = id
-      newUser.photo = newUser.photoURL
+      // newUser.photo = newUser.photoURL
       setGroup( prevState => [...prevState, newUser])
     })
     
@@ -115,7 +115,7 @@ const Room = ({newUser}) => {
           <div className="room-users-selection">
               <div className="room-users-selection-picked">
                 {group.length > 0 && group.map((item, idx) =>
-                  <img key={idx} src={item.photo}></img>
+                  <img key={idx} src={item.photoURL}></img>
                 )}
               </div>
               <div className="room-users-selection-svg">
@@ -125,7 +125,7 @@ const Room = ({newUser}) => {
                   <div className="room-users-selection-online-container">
                     {onlineUsers && onlineUsers.length > 1 && onlineUsers.filter((item) => item.email !== newUser.email).map((user, idx) => 
                       <div key={idx} id={user.id} className="room-users-selection-online" onClick={(e) => (e.target.classList.add('pending'), socket.emit('group-invite', {user, newUser}))}>
-                        <img src={user.photo}/>
+                        <img src={user.photoURL}/>
                         <span>{user.name}</span>
                       </div>
                     )
