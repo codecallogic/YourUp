@@ -30,20 +30,21 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [activeRoom, setActiveRoom] = useState(null)
    
   useEffect( () => {
-    console.log(group)
     group.length == 0 ? setActiveRoom(null) : null
     invalidToken ? window.location.href = `/` : null
 
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
     Object.keys(spotifyData).length > 0 ? setDataExists(true) : null
 
-    socket.on('join-room', (data) => {
+    socket.on('get-room', (data) => {
       setGroup(data.group)
       setActiveRoom(data.room)
+      socket.emit('join-room', data.room)
     })
 
     socket.emit('online-mixer', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email}, (users) => {
       let isInArray = []
+      let newRoom = null
       // console.log(users)
       if(JSON.parse(window.localStorage.getItem('group'))){
         JSON.parse(window.localStorage.getItem('group')).find((item) => {
@@ -51,37 +52,50 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
             if(el.email == item.email) isInArray.push(el)
           })
         })
-        
+
+        newRoom = JSON.parse(window.localStorage.getItem('room'))
+      }
+
+      if(isInArray.length !== 0){
         isInArray.forEach((item) => {
-          item.room = JSON.parse(window.localStorage.getItem('room'))
+          item.room = newRoom
           socket.emit('send-room', {id: item.id, room: item.room, group: isInArray})
         })
       }
       
-      setActiveRoom(JSON.parse(window.localStorage.getItem('room')))
-      setGroup([...isInArray])
+      if(JSON.parse(window.localStorage.getItem('room'))) setActiveRoom(JSON.parse(window.localStorage.getItem('room')))
+      if(isInArray.length > 0) setGroup([...isInArray])
     })
+
 
     socket.on('online-mixer', (users) => {
       let isInArray = []
+      let newRoom = null
+      // console.log(users)
       if(JSON.parse(window.localStorage.getItem('group'))){
         JSON.parse(window.localStorage.getItem('group')).find((item) => {
-          users.forEach( (el) => {
+          if(users){
+            users.forEach( (el) => {
             if(el.email == item.email) isInArray.push(el)
           })
+          }
         })
-        
+
+        newRoom = JSON.parse(window.localStorage.getItem('room'))
+      }
+      
+      if(isInArray.length !== 0){
         isInArray.forEach((item) => {
-          item.room = JSON.parse(window.localStorage.getItem('room'))
+          item.room = newRoom
           socket.emit('send-room', {id: item.id, room: item.room, group: isInArray})
         })
       }
       
-      setActiveRoom(JSON.parse(window.localStorage.getItem('room')))
-      setGroup([...isInArray])
+      if(JSON.parse(window.localStorage.getItem('room'))) setActiveRoom(JSON.parse(window.localStorage.getItem('room')))
+      if(isInArray.length !== 0) setGroup([...isInArray])
     })
 
-    socket.on('play', (play) => {
+    socket.on('play-song', (play) => {
       console.log(play)
     })
 
@@ -150,9 +164,11 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     newCounter < spotifyData.track.tracks.length ? setCounter(newCounter) : (setCounter(0), newCounter = 0);
     setRipples(null)
     setShake(true)
-
-    socket.emit('send-song', group[0])
-    playSong(uri, newCounter)
+    console.log(group)
+    let userInGroup = group[0]
+    
+    socket.emit('send-song', {userInGroup, uri, newCounter})
+    // playSong(uri, newCounter)
   }
 
   return (
@@ -276,7 +292,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
             </div>
             {message && <div className="roomNameModal-box-message">{message}. Please enter a new room name.</div>}
             <div className="roomNameModal-box-input"><input type="text" placeholder="Room name" name="room" value={room} onChange={(e) => setRoom(e.target.value)}/></div>
-            <button className="roomNameModal-box-button" onClick={() => (setRoomNameModal(false), setUpRoom(room))}>Start Room Session</button>
+            <button className="roomNameModal-box-button" onClick={() => (setRoomNameModal(false))}>Start Room Session</button>
             {error ? <div className="roomNameModal-box-error">{error}</div> : <div className="roomNameModal-box-error">{error}</div>}
           </div>
       </div>

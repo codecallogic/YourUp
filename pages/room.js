@@ -86,7 +86,7 @@ const Room = ({newUser}) => {
           if(item.email !== newUser.email) socket.emit('redirect', item.id)
         })
         window.localStorage.setItem('group', JSON.stringify(group))
-        window.localStorage.setItem('room', data.room)
+        window.localStorage.setItem('room', JSON.stringify(data.room))
         window.location.href = '/mixer'
       })
     }else{
