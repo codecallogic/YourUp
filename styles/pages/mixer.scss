@@ -529,7 +529,7 @@
         }
       }
 
-      &:active {
+      &:active > svg {
         cursor: pointer;
         transform: scaleX(1.1);
         animation: playControl 1s linear;

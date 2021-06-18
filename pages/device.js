@@ -29,9 +29,9 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
         <span className="selectDevice-none">
           <span>No active devices have been found</span>
           <ol>
-            <li>Please open the Spotify app on one of your devices.</li>
-            <li>If on a mobile device play a track so you can switch between apps and have Spotify active in the background.</li>
-            <li>Refresh page to view available devices.</li>
+            <li>If your Spotify music will play on your mobile device, please open this website in another devices browser. Both Spotify and Webapp must remain active.</li>
+            <li>Desktop devices and tablets can keep both Spotify and Webapp active simulatneously.</li>
+            <li>When you leave the browser tabe, refresh the page reconnect to room.</li>
           </ol>
         </span>
         }

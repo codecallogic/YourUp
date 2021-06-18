@@ -685,7 +685,7 @@ body {
         .mixer-controls-double:hover > svg {
           cursor: pointer;
           fill: #14a3ff; } }
-      .mixer-controls-double:active {
+      .mixer-controls-double:active > svg {
         cursor: pointer;
         transform: scaleX(1.1);
         animation: playControl 1s linear; }
@@ -755,7 +755,8 @@ body {
   padding: 0 5rem; }
   @media only screen and (max-width: 992px) {
     .selectDevice {
-      padding: 0 5rem; } }
+      padding: 0 5rem;
+      overflow-y: hidden; } }
   .selectDevice-container {
     display: flex;
     justify-content: center;
@@ -775,7 +776,7 @@ body {
     justify-content: center;
     width: 100%;
     height: 6rem;
-    margin: 2rem 0;
+    margin: 3rem 0;
     font-size: 1.6rem;
     position: relative;
     border-radius: 3rem;

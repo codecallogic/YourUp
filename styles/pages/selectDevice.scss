@@ -9,6 +9,7 @@
 
   @media only screen and (max-width: $large) {
     padding: 0 5rem;
+    overflow-y: hidden;
   }
 
   &-container {
@@ -35,7 +36,7 @@
     justify-content: center;
     width: 100%;
     height: 6rem;
-    margin: 2rem 0;
+    margin: 3rem 0;
     font-size: 1.6rem;
     position: relative;
     border-radius: 3rem;
