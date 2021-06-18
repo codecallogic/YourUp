@@ -30,7 +30,7 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
           <span>No active devices have been found</span>
           <ol>
             <li>Please open the Spotify app on one of your devices.</li>
-            <li>Play a track so you can switch between apps and have Spotify active in the background.</li>
+            <li>If on a mobile device play a track so you can switch between apps and have Spotify active in the background.</li>
             <li>Refresh page to view available devices.</li>
           </ol>
         </span>
