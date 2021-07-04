@@ -17,7 +17,7 @@ const spotifyService = Page => {
     newUser = getUser('user', context.req) ? JSON.parse(decodeURIComponent(getUser('user', context.req).split('=')[1])) : null
 
     let spotifyData = new Object()
-    let tracks = ['3Ofmpyhv5UAQ70mENzB277', '7KwZNVEaqikRSBSpyhXK2j', '2SxeNZphx2bH5kju5Ntu8P', '5IlR8G1OEn99cV3WB49O7o', '4DqO37N1eWHWKhvcgCho9F', '7hofL9YADeFqnsFdDrxdbs', '2GQEM9JuHu30sGFvRYeCxz']
+    let tracks = ['0J7oHYxjF6Oln61wy0kP2i', '3cCxoOgfi6hgt8MNteuiiD', '21bhcTyR7wRA9xQt9fSpj3', '2P3SLxeQHPqh8qKB6gtJY2']
 
     const headerOptions = {
       Accept: 'application/json',

@@ -31,7 +31,6 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const [roomNameModal, setRoomNameModal] = useState(false)
   const [error, setError] = useState('')
 
-
   // SOCKET DATA
   const [group, setGroup] = useState([newUser])
   const [activeRoom, setActiveRoom] = useState(null)
@@ -97,7 +96,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
           socket.emit('send-room', {id: item.id, room: item.room, group: isInArray})
         })
       }
-      
+      console.log(JSON.parse(window.localStorage.getItem('room')))
       if(JSON.parse(window.localStorage.getItem('room'))) setActiveRoom(JSON.parse(window.localStorage.getItem('room')))
       if(isInArray.length !== 0) setGroup([...isInArray])
     })
@@ -237,6 +236,9 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
               )}
             </div>
           </div>
+          }
+          {!activeRoom &&   
+            <div className="mixer-dj-button">Join Room</div>
           }
           {!activeRoom &&   
             <div className="mixer-dj-button" onClick={() => window.location.href = '/room'}>Create Room</div>

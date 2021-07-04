@@ -76,6 +76,7 @@
         padding: 1rem 1rem 0 1rem;
         border-radius: 1.2rem;
         box-shadow: 1rem 0rem 3rem 0.2rem rgba($color-shade-dark-gray, 0.7);
+        margin-left: 1rem;
 
         @media only screen and (max-width: $medium-small) {
           width: 20rem;
@@ -278,5 +279,58 @@
     &:hover {
       cursor: pointer;
     }
+  }
+
+  &-created {
+    position: absolute;
+    background-color: $color-scheme-1;
+    width: 100%;
+    height: 80%;
+    overflow-y: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    &-title {
+      font-size: 3rem;
+      margin: 2rem 0;
+    }
+
+    &-subtitle {
+      font-size: 1.8rem;
+      text-align: center;
+      padding: 0 8rem;
+      margin: 2rem 0;
+    }
+
+    &-button {
+      background-color: $color-scheme-2;
+      padding: 1rem 2rem;
+      margin: 2rem 0;
+      font-size: 2.6rem;
+      color: white;
+      border-radius: 2rem;
+      width: 33.7rem;
+      height: 8rem;
+      text-transform: uppercase;
+    }
+  }
+
+  &-wait {
+    text-align: center;
+    font-size: 1.5rem;
+    color: $color-scheme-2;
+    margin: 4rem 0;
+    text-transform: uppercase;
+  }
+
+  &-in_group {
+    top: 180%;
+    left: -10rem;
+  }
+
+  &-mode {
+    background-color: $color-scheme-2 !important;
   }
 }

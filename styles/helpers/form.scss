@@ -8,15 +8,17 @@
       margin: 1rem 0;
 
       input {
-        padding: 1rem 2rem;
+        padding: 2rem 2rem;
         width: 100%;
         background-color: $color-shade-subtle-gray;
         text-align: center;
         font-size: 1.6rem;
-        color: white;
+        color: $color-shade-light-gray;
+        outline: none;
+        border: none;
 
         &::placeholder {
-          color: white;
+          color: $color-shade-light-gray;
         }
 
         &:focus {
@@ -42,12 +44,12 @@
           width: calc(100% - 2.5rem);
           padding: 1rem 2rem;
           border-radius: 1.2rem;
-          background-color: $color-shade-gray;
+          background-color: $color-shade-subtle-gray;
           font-size: 1.4rem;
           outline: none;
           border: none;
           color: white;
-          transition: all 0.5s cubic-bezier(0.95, 0.05, 0.795, 0.035);
+          transition: all 0.5s ease-in-out;
 
           &:hover {
             cursor: pointer;
