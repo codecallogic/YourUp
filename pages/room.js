@@ -23,6 +23,8 @@ const Room = ({newUser}) => {
   const [room_mode, setRoomMode] = useState('')
   const [room_created, setRoomCreated] = useState(false)
   const [in_group, setInGroup] = useState(false)
+  const [notification, setNotication] = useState('')
+  const [button, setButton] = useState('Getting room ready')
 
   useEffect(() => {
     socket.emit('online', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email}, (id) => {
@@ -52,6 +54,11 @@ const Room = ({newUser}) => {
       if(inviteModal) document.getElementById(data.id).classList.remove('pending')
     })
 
+    socket.on('room_created', (data) => {
+      setNotication(data.msg)
+      setRoomCreated(data.type)
+    })
+
     socket.on('redirect', (redirect) => {
       if(redirect) window.location.href = '/mixer'
     })
@@ -61,6 +68,13 @@ const Room = ({newUser}) => {
       socket.off();
     };
   }, [])
+
+  const handleInviteModal = () => {
+    if(!room) return setMessage('Enter room name')
+    if(!room_mode) return setMessage('Select room mode')
+    
+    setInviteModal(!inviteModal)
+  }
 
   const sendInvite = async () => {
     let message = `${newUser.displayName} has invited you to join in on a DJ mixer live room. You can join by visiting ${DOMAIN} and tapping on create a room, someone will add you to a group or you can create a room with others online.`
@@ -72,6 +86,20 @@ const Room = ({newUser}) => {
     } catch (error) {
       if(error) setMessage(error.response ? error.response.data : 'Invalid number, please try again.'); setNumber('')
     }
+  }
+
+  const roomNotification = (type) => {
+    if(!room) return setMessage('Enter room name')
+    if(!room_mode) return setMessage('Select room mode')    
+    
+    if(group && group.length > 0){
+      group.forEach((user) => {
+        socket.emit('notification', {type: 'room_created', user, room, room_mode, newUser})
+      })
+    }
+
+    setRoomCreated(true)
+    setButton('Enter room')
   }
 
   const createRoom = () => {
@@ -89,6 +117,11 @@ const Room = ({newUser}) => {
         window.localStorage.setItem('group', JSON.stringify(group))
         window.localStorage.setItem('room', JSON.stringify(data.room))
         window.localStorage.setItem('mode', JSON.stringify(room_mode))
+
+        let pin = Math.floor(1000 + Math.random() * 9000);
+
+        window.localStorage.setItem('pin', pin)
+        
         window.location.href = '/mixer'
       })
     }else{
@@ -108,8 +141,8 @@ const Room = ({newUser}) => {
           <div className="form-group-double">
             <label htmlFor="">Mode</label>
             <div className="form-group-double-container">
-              <button onClick={(e) => (e.preventDefault(), setRoomMode('back_to_back'))} className={(room_mode == 'back_to_back' ? `room-mode` : '')}>Back to Back</button>
-              <button onClick={(e) => (e.preventDefault(), setRoomMode('everyone'))} className={(room_mode == 'everyone' ? `room-mode` : '')}>Everyone's a DJ</button>
+              <button onClick={(e) => (e.preventDefault(), (setRoomMode('back_to_back'), setMessage('')))} className={(room_mode == 'back_to_back' ? `room-mode` : '')}>Back to Back</button>
+              <button onClick={(e) => (e.preventDefault(), (setRoomMode('everyone'), setMessage('')))} className={(room_mode == 'everyone' ? `room-mode` : '')}>Everyone's a DJ</button>
             </div>
           </div>
         </form>
@@ -124,7 +157,7 @@ const Room = ({newUser}) => {
                 )}
               </div>
               <div className="room-users-selection-svg">
-                {!inviteMessageModal && <svg onClick={ () => setInviteModal(!inviteModal)}><use xlinkHref={!inviteModal ? `sprite.svg#icon-add-solid` : `sprite.svg#icon-cancel-circle`}></use></svg>}
+                {!inviteMessageModal && <svg onClick={ () => handleInviteModal()}><use xlinkHref={!inviteModal ? `sprite.svg#icon-add-solid` : `sprite.svg#icon-cancel-circle`}></use></svg>}
                 {inviteModal && 
                 <div className={`room-users-selection-container ` + (in_group ? `room-in_group` : '')}>
                   <div className="room-users-selection-online-container">
@@ -161,15 +194,16 @@ const Room = ({newUser}) => {
               </div>
           </div>
         </div>
-        {!in_group && <button className="room-button" onClick={() => setRoomCreated(true)}>Create Session</button>}
+        {!in_group && <button className="room-button" onClick={() => roomNotification('room_created')}>Create Session</button>}
         {in_group && <span className="room-wait">Waiting for room to be created</span>}
         {message && <div className="room-users-selection-offline-invite-message">{message}</div>}
         {room_created &&
         <div className="room-created">
           <img src="/media/group_created.png" />
           <div className="room-created-title">Group Created</div>
+          <div className="room-created-notification">{notification ? notification : ''}</div>
           <div className="room-created-subtitle">All members must have a premium account to play and listen to music.</div>
-          <button className="room-created-button" onClick={createRoom}>Nice one, your in</button>
+          <button className="room-created-button" onClick={createRoom}>{button}</button>
         </div>
         }
       </div>

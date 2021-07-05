@@ -28,12 +28,18 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   // ROOM DATA
   const [room, setRoom] = useState('')
   const [message, setMessage] = useState(false)
-  const [roomNameModal, setRoomNameModal] = useState(false)
   const [error, setError] = useState('')
 
   // SOCKET DATA
   const [group, setGroup] = useState([newUser])
   const [activeRoom, setActiveRoom] = useState(null)
+  const [room_mode, setRoomMode] = useState(null)
+  const [pin, setPin] = useState(null)
+  const [join_room, setJoinRoom] = useState('')
+
+  // MODALS
+  const [roomNameModal, setRoomNameModal] = useState(false)
+  const [join_room_modal, setJoinRoomModal] = useState(false)
    
   useEffect( () => {
     group.length == 0 ? setActiveRoom(null) : null
@@ -45,12 +51,16 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     socket.on('get-room', (data) => {
       setGroup(data.group)
       setActiveRoom(data.room)
+      setRoomMode(data.mode)
+      setPin(data.pin)
       socket.emit('join-room', data.room)
     })
 
     socket.emit('online-mixer', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email}, (users) => {
       let isInArray = []
       let newRoom = null
+      let mode = null
+      let pin = null
       // console.log(users)
       if(JSON.parse(window.localStorage.getItem('group'))){
         JSON.parse(window.localStorage.getItem('group')).find((item) => {
@@ -60,12 +70,18 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         })
 
         newRoom = JSON.parse(window.localStorage.getItem('room'))
+        mode = JSON.parse(window.localStorage.getItem('mode')) ? JSON.parse(window.localStorage.getItem('mode')) : null
+        pin = JSON.parse(window.localStorage.getItem('pin')) ? JSON.parse(window.localStorage.getItem('pin')) : null
       }
 
       if(isInArray.length !== 0){
         isInArray.forEach((item) => {
           item.room = newRoom
-          socket.emit('send-room', {id: item.id, room: item.room, group: isInArray})
+          item.mode = mode
+          item.pin = pin
+          socket.emit('send-room', {id: item.id, room: item.room, mode: item.mode, pin: item.pin, group: isInArray}, (data) => {
+            console.log(data)
+          })
         })
       }
       
@@ -77,6 +93,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     socket.on('online-mixer', (users) => {
       let isInArray = []
       let newRoom = null
+      let mode = null
+      let pin = null
       // console.log(users)
       if(JSON.parse(window.localStorage.getItem('group'))){
         JSON.parse(window.localStorage.getItem('group')).find((item) => {
@@ -88,12 +106,18 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         })
 
         newRoom = JSON.parse(window.localStorage.getItem('room'))
+        mode = JSON.parse(window.localStorage.getItem('mode')) ? JSON.parse(window.localStorage.getItem('mode')) : null
+        pin = JSON.parse(window.localStorage.getItem('pin')) ? JSON.parse(window.localStorage.getItem('pin')) : null
       }
       
       if(isInArray.length !== 0){
         isInArray.forEach((item) => {
           item.room = newRoom
-          socket.emit('send-room', {id: item.id, room: item.room, group: isInArray})
+          item.mode = mode
+          item.pin = pin
+          socket.emit('send-room', {id: item.id, room: item.room, mode: item.mode, pin: item.pin, group: isInArray}, (data) => {
+            
+          })
         })
       }
       console.log(JSON.parse(window.localStorage.getItem('room')))
@@ -217,6 +241,12 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     }
   }
 
+  const enterRoom = () => {
+    socket.emit('enter-room', {pin: join_room}, (room) => {
+      console.log(room)
+    })
+  }
+
   return (
     <div className="mixer-container">
       <div className="mixer">
@@ -238,7 +268,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
           </div>
           }
           {!activeRoom &&   
-            <div className="mixer-dj-button">Join Room</div>
+            // TODO: Create function to join room if room exists and pin matches
+            <div className="mixer-dj-button" onClick={() => setJoinRoomModal(true)}>Join Room</div>
           }
           {!activeRoom &&   
             <div className="mixer-dj-button" onClick={() => window.location.href = '/room'}>Create Room</div>
@@ -345,6 +376,15 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
             {error ? <div className="roomNameModal-box-error">{error}</div> : <div className="roomNameModal-box-error">{error}</div>}
           </div>
       </div>
+      }
+      {join_room_modal && 
+        <div className="mixer-join_room-modal">
+          <div className="mixer-join_room-content">
+            <input type="text" value={join_room} onChange={ (e) => setJoinRoom(e.target.value)}/>
+            <div className="mixer-join_room-title">Enter room pin to continue</div>
+            <div className="mixer-join_room-button" onClick={enterRoom}>Enter room</div>
+          </div>
+        </div>
       }
     </div>
   )
