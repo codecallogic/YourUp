@@ -630,6 +630,29 @@
         cursor: pointer;
       }
     }
+
+    &-message {
+      font-size: 1.5rem;
+      color: $color-scheme-2;
+    }
+
+    &-input {
+      width: 80%;
+      text-align: center;
+      box-sizing: border-box;
+      font-size: 2.8rem;
+      padding: 1.5rem 2rem;
+      background-color: transparent;
+      color: $color-scheme-2;
+      outline: none;
+      border: none;
+      caret-color: $color-scheme-2;
+
+      &::placeholder {
+        color: $color-scheme-2;
+        font-size: 2.8rem;
+      }
+    }
   }
 }
 

@@ -243,8 +243,15 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
 
   const enterRoom = () => {
     socket.emit('enter-room', {pin: join_room}, (room) => {
-      console.log(room)
+      if(room.error) return setMessage(room.error)
     })
+  }
+
+  const handleText = (e) => {
+    const re = /^[0-9\b]+$/;
+    if (e.target.value === '' || re.test(e.target.value)) {
+        setJoinRoom(e.target.value)
+    }
   }
 
   return (
@@ -380,9 +387,10 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       {join_room_modal && 
         <div className="mixer-join_room-modal">
           <div className="mixer-join_room-content">
-            <input type="text" value={join_room} onChange={ (e) => setJoinRoom(e.target.value)}/>
+            <input id="pin" autoFocus placeholder="****" maxLength="4" className="mixer-join_room-input" type="text" value={join_room} onChange={ (e) => (setMessage(''), handleText(e))}/>
             <div className="mixer-join_room-title">Enter room pin to continue</div>
             <div className="mixer-join_room-button" onClick={enterRoom}>Enter room</div>
+            {message && <span className="mixer-join_room-message">{message}</span>}
           </div>
         </div>
       }
