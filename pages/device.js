@@ -32,6 +32,7 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
           <span>No active devices have been found</span>
           <ol>
             <li>Open spotify app and play song to keep your spotify account active on webapp.</li>
+            <li>Each user must have their own premium spotify account.</li>
             <li>Go back to web app and play song or join room.</li>
             <li>Desktop devices and tablets can keep both Spotify and Webapp active simulatneously.</li>
             <li>If disconnect from room, rejoin room with pin if room is still active.</li>
