@@ -65,7 +65,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       if(JSON.parse(window.localStorage.getItem('group'))){
         JSON.parse(window.localStorage.getItem('group')).find((item) => {
           users.forEach( (el) => {
-            if(item.mixing) el.mixing = true
+            if(item.mixing == true) item.email == el.email ? el.mixing = true : null
             if(el.email == item.email) isInArray.push(el)
           })
         })
@@ -75,7 +75,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         pin = JSON.parse(window.localStorage.getItem('pin')) ? JSON.parse(window.localStorage.getItem('pin')) : null
       }
 
-      console.log(isInArray)
+      // console.log(isInArray)
 
       if(isInArray.length !== 0){
         isInArray.forEach((item) => {
@@ -83,7 +83,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
           item.mode = mode
           item.pin = pin
           socket.emit('send-room', {id: item.id, room: item.room, mode: item.mode, pin: item.pin, group: isInArray}, (data) => {
-            console.log(data)
+            // console.log(data)
           })
         })
       }
@@ -114,7 +114,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         pin = JSON.parse(window.localStorage.getItem('pin')) ? JSON.parse(window.localStorage.getItem('pin')) : null
       }
 
-      console.log(isInArray)
+      // console.log(isInArray)
+      console.log(pin)
       
       if(isInArray.length !== 0){
         isInArray.forEach((item) => {
@@ -122,17 +123,21 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
           item.mode = mode
           item.pin = pin
           socket.emit('send-room', {id: item.id, room: item.room, mode: item.mode, pin: item.pin, group: isInArray}, (data) => {
-            console.log(data)
+            // console.log(data)
           })
         })
       }
-      console.log(JSON.parse(window.localStorage.getItem('room')))
+      // console.log(JSON.parse(window.localStorage.getItem('room')))
       if(JSON.parse(window.localStorage.getItem('room'))) setActiveRoom(JSON.parse(window.localStorage.getItem('room')))
       if(isInArray.length !== 0) setGroup([...isInArray])
     })
 
+    socket.on('new-user', (users) => {
+      setGroup([...users])
+    })
+
     socket.on('play-song', (play) => {
-      // console.log(play)
+      console.log(play)
       playSong(play.uri, play.newCounter)
     })
 
@@ -201,10 +206,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     newCounter < spotifyData.track.tracks.length ? setCounter(newCounter) : (setCounter(0), newCounter = 0);
     setRipples(null)
     setShake(true)
-
-    let userInGroup = group[0]
     
-    socket.emit('send-song', {userInGroup, uri, newCounter})
+    socket.emit('send-song', {activeRoom, uri, newCounter})
     playSong(uri, newCounter)
   }
 
@@ -212,10 +215,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
     let newCounter = counter + 1
 
     newCounter < spotifyData.track.tracks.length ? setCounter(newCounter) : (setCounter(0), newCounter = 0);
-
-    let userInGroup = group[0]
     
-    socket.emit('send-song', {userInGroup, uri, newCounter})
+    socket.emit('send-song', {activeRoom, uri, newCounter})
     playSong(uri, newCounter)
   }
 
@@ -231,8 +232,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         let newCounter = counter + 1
         newCounter < spotifyData.track.tracks.length ? setCounter(newCounter) : (setCounter(0), newCounter = 0);
 
-        let userInGroup = group[0]
-        socket.emit('send-song', {userInGroup, uri, newCounter})
+        socket.emit('send-song', {activeRoom, uri, newCounter})
 
         playSong(uri, newCounter)
         timesRunFirstInterval += 1;
@@ -248,13 +248,16 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   }
 
   const enterRoom = () => {
-    socket.emit('enter-room', {pin: join_room}, (room) => {
+    socket.emit('enter-room', {pin: join_room, newUser}, (room) => {
       if(room.error) return setMessage(room.error)
-      setGroup( prevState => [...group, ...room.group])
+      setGroup([...room.group])
       setActiveRoom(room.room)
       setRoomMode(room.mode)
       setPin(room.pin)
-      socket.emit('join-room', room.room)
+      setJoinRoomModal(false)
+      socket.emit('join-room', {room: room.room, data: room}, (data) => {
+
+      })
     })
   }
 
@@ -270,8 +273,12 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       <div className="mixer">
         <div className="mixer-dj">
           <div className="mixer-dj-inTheMix">
-            {group.length > 0 && group.map((item, idx) => (
+            {group.length > 1 && group.map((item, idx) => (
               item.mixing ? <img key={idx} src={item.photoURL} alt="In The Mix"/> : null
+            ))
+            }
+            {group.length == 1 && group.map((item, idx) => (
+              <img key={idx} src={item.photoURL} alt="In The Mix"/>
             ))
             }
             <div>

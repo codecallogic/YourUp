@@ -21,6 +21,7 @@ const Room = ({newUser}) => {
   const [error, setError] = useState('')
   const [group, setGroup] = useState([])
   const [room_mode, setRoomMode] = useState('')
+  const [pin, setPin] = useState('')
   const [room_created, setRoomCreated] = useState(false)
   const [in_group, setInGroup] = useState(false)
   const [notification, setNotication] = useState('')
@@ -77,7 +78,7 @@ const Room = ({newUser}) => {
   }
 
   const sendInvite = async () => {
-    let message = `${newUser.name} has invited you to join in on a DJ mixer live room. You can join by visiting ${DOMAIN} and tapping on create a room, someone will add you to a group or you can create a room with others online.`
+    let message = `${newUser.name} has invited you to join in on a DJ mixer live room. You can join by visiting ${DOMAIN} and entering a room with the pin ${pin}`
 
     try {
       const responseInvite  = await axios.post(`${API}/message/invite`, {toUser: `+${number}`, message})
@@ -111,7 +112,7 @@ const Room = ({newUser}) => {
 
       socket.emit('rooms', {room}, (data) => {
         if(data.error) return setMessage(data.error)
-        
+
         group.forEach((item) => {
           if(item.email !== newUser.email) socket.emit('redirect', item.id)
         })
@@ -120,12 +121,12 @@ const Room = ({newUser}) => {
           if(item.email == newUser.email) return item.mixing = true
           return item
         })
+
+        console.log(group)
         
         window.localStorage.setItem('group', JSON.stringify(group))
         window.localStorage.setItem('room', JSON.stringify(data.room))
         window.localStorage.setItem('mode', JSON.stringify(room_mode))
-
-        let pin = Math.floor(1000 + Math.random() * 9000);
 
         window.localStorage.setItem('pin', pin)
 
@@ -134,6 +135,12 @@ const Room = ({newUser}) => {
     }else{
       setMessage('Please enter a name for the room.')
     }
+  }
+  
+  const generatePin = () => {
+    let newPin = Math.floor(1000 + Math.random() * 9000);
+    if(pin) return
+    setPin(newPin)
   }
   
   return (
@@ -148,8 +155,8 @@ const Room = ({newUser}) => {
           <div className="form-group-double">
             <label htmlFor="">Mode</label>
             <div className="form-group-double-container">
-              <button onClick={(e) => (e.preventDefault(), (setRoomMode('back_to_back'), setMessage('')))} className={(room_mode == 'back_to_back' ? `room-mode` : '')}>Back to Back</button>
-              <button onClick={(e) => (e.preventDefault(), (setRoomMode('everyone'), setMessage('')))} className={(room_mode == 'everyone' ? `room-mode` : '')}>Everyone's a DJ</button>
+              <button onClick={(e) => (e.preventDefault(), (setRoomMode('back_to_back'), setMessage('')), generatePin())} className={(room_mode == 'back_to_back' ? `room-mode` : '')}>Back to Back</button>
+              <button onClick={(e) => (e.preventDefault(), (setRoomMode('everyone'), setMessage('')), generatePin())} className={(room_mode == 'everyone' ? `room-mode` : '')}>Everyone's a DJ</button>
             </div>
           </div>
         </form>
