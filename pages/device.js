@@ -31,9 +31,10 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
         <span className="selectDevice-none">
           <span>No active devices have been found</span>
           <ol>
-            <li>If your Spotify music will play on your mobile device, please open this website in another devices browser and open Spotify on mobile device. Both Spotify and Webapp must remain active.</li>
+            <li>Open spotify app and play song to keep your spotify account active on webapp.</li>
+            <li>Go back to web app and play song or join room.</li>
             <li>Desktop devices and tablets can keep both Spotify and Webapp active simulatneously.</li>
-            <li>When you leave the browser tab, refresh the page to reconnect to room.</li>
+            <li>If disconnect from room, rejoin room with pin if room is still active.</li>
           </ol>
         </span>
         }
