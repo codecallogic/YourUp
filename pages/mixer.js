@@ -56,7 +56,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       socket.emit('join-room', data.room)
     })
 
-    socket.emit('online-mixer', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email}, (users) => {
+    socket.emit('online-mixer', {name: newUser.name, photoURL: newUser.photoURL, email: newUser.email}, (users) => {
       let isInArray = []
       let newRoom = null
       let mode = null
@@ -65,6 +65,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       if(JSON.parse(window.localStorage.getItem('group'))){
         JSON.parse(window.localStorage.getItem('group')).find((item) => {
           users.forEach( (el) => {
+            if(item.mixing) el.mixing = true
             if(el.email == item.email) isInArray.push(el)
           })
         })
@@ -73,6 +74,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         mode = JSON.parse(window.localStorage.getItem('mode')) ? JSON.parse(window.localStorage.getItem('mode')) : null
         pin = JSON.parse(window.localStorage.getItem('pin')) ? JSON.parse(window.localStorage.getItem('pin')) : null
       }
+
+      console.log(isInArray)
 
       if(isInArray.length !== 0){
         isInArray.forEach((item) => {
@@ -100,6 +103,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         JSON.parse(window.localStorage.getItem('group')).find((item) => {
           if(users){
             users.forEach( (el) => {
+            if(item.mixing == true) item.email == el.email ? el.mixing = true : null
             if(el.email == item.email) isInArray.push(el)
           })
           }
@@ -109,6 +113,8 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
         mode = JSON.parse(window.localStorage.getItem('mode')) ? JSON.parse(window.localStorage.getItem('mode')) : null
         pin = JSON.parse(window.localStorage.getItem('pin')) ? JSON.parse(window.localStorage.getItem('pin')) : null
       }
+
+      console.log(isInArray)
       
       if(isInArray.length !== 0){
         isInArray.forEach((item) => {
@@ -116,7 +122,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
           item.mode = mode
           item.pin = pin
           socket.emit('send-room', {id: item.id, room: item.room, mode: item.mode, pin: item.pin, group: isInArray}, (data) => {
-            
+            console.log(data)
           })
         })
       }
@@ -244,6 +250,11 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
   const enterRoom = () => {
     socket.emit('enter-room', {pin: join_room}, (room) => {
       if(room.error) return setMessage(room.error)
+      setGroup( prevState => [...group, ...room.group])
+      setActiveRoom(room.room)
+      setRoomMode(room.mode)
+      setPin(room.pin)
+      socket.emit('join-room', room.room)
     })
   }
 
@@ -259,7 +270,10 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       <div className="mixer">
         <div className="mixer-dj">
           <div className="mixer-dj-inTheMix">
-            <img src={group.length > 0 ? group[0].photoURL : newUser.photoURL} alt="In The Mix"/>
+            {group.length > 0 && group.map((item, idx) => (
+              item.mixing ? <img key={idx} src={item.photoURL} alt="In The Mix"/> : null
+            ))
+            }
             <div>
               <span>In the Mix</span>
               <span>Now playing {activeRoom ? `in room ${activeRoom}` : null}</span>

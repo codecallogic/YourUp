@@ -11,6 +11,8 @@ const SelectDevice = ({newToken, invalidToken, spotifyData, newUser}) => {
     console.log(spotifyData)
     window.localStorage.removeItem('room')
     window.localStorage.removeItem('group')
+    window.localStorage.removeItem('mode')
+    window.localStorage.removeItem('pin')
     invalidToken ? window.location.href = `/` : null
     Object.keys(spotifyData).length > 0 ? null : window.location.href = `${API}/spotify/login`
   }, [])

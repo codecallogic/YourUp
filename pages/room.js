@@ -27,7 +27,7 @@ const Room = ({newUser}) => {
   const [button, setButton] = useState('Getting room ready')
 
   useEffect(() => {
-    socket.emit('online', {displayName: newUser.displayName, photoURL: newUser.photoURL, email: newUser.email}, (id) => {
+    socket.emit('online', {name: newUser.name, photoURL: newUser.photoURL, email: newUser.email}, (id) => {
       newUser.id = id
       // newUser.photo = newUser.photoURL
       setGroup( prevState => [...prevState, newUser])
@@ -77,7 +77,7 @@ const Room = ({newUser}) => {
   }
 
   const sendInvite = async () => {
-    let message = `${newUser.displayName} has invited you to join in on a DJ mixer live room. You can join by visiting ${DOMAIN} and tapping on create a room, someone will add you to a group or you can create a room with others online.`
+    let message = `${newUser.name} has invited you to join in on a DJ mixer live room. You can join by visiting ${DOMAIN} and tapping on create a room, someone will add you to a group or you can create a room with others online.`
 
     try {
       const responseInvite  = await axios.post(`${API}/message/invite`, {toUser: `+${number}`, message})
@@ -111,9 +111,16 @@ const Room = ({newUser}) => {
 
       socket.emit('rooms', {room}, (data) => {
         if(data.error) return setMessage(data.error)
+        
         group.forEach((item) => {
           if(item.email !== newUser.email) socket.emit('redirect', item.id)
         })
+
+        let newGroup = group.filter((item) => {
+          if(item.email == newUser.email) return item.mixing = true
+          return item
+        })
+        
         window.localStorage.setItem('group', JSON.stringify(group))
         window.localStorage.setItem('room', JSON.stringify(data.room))
         window.localStorage.setItem('mode', JSON.stringify(room_mode))
@@ -121,7 +128,7 @@ const Room = ({newUser}) => {
         let pin = Math.floor(1000 + Math.random() * 9000);
 
         window.localStorage.setItem('pin', pin)
-        
+
         window.location.href = '/mixer'
       })
     }else{
