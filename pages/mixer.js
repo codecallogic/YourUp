@@ -167,6 +167,7 @@ const Mixer = ({newToken, invalidToken, spotifyData, newUser}) => {
       // const responseLowerVolume = await axios.put(`${API}/spotify/volume/decrease`, {newToken})
       const responsePlay = await axios.post(`${API}/spotify/play`, {spotifyURI, newToken, activateDevice})
       // const responseIncreaseVolume = await axios.put(`${API}/spotify/volume/increase`, {newToken})
+      console.log(responsePlay.data)
       setCurrentTrack(responsePlay.data.item)
       setDevice(true)
     } catch (error) {
